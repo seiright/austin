@@ -15,9 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * 获取数据接口（全链路追踪)
- *
- * @author 3y
+ * @description: 获取数据接口：全链路追踪
+ * @author zhaolifeng
+ * @date 2022/10/5 21:48
+ * @version 1.0
  */
 @Slf4j
 @RestController
@@ -32,7 +33,6 @@ public class DataController {
     @ApiOperation("/获取【当天】用户接收消息的全链路数据")
     public BasicResultVO getUserData(@RequestBody DataParam dataParam) {
         UserTimeLineVo traceUserInfo = dataService.getTraceUserInfo(dataParam.getReceiver());
-
         return BasicResultVO.success(traceUserInfo);
     }
 

@@ -179,7 +179,7 @@ public class CronTaskServiceImpl implements CronTaskService {
     /**
      * 获取xxl cookie
      *
-     * @return String
+     * @return cookie信息
      */
     private String getCookie() {
         Map<String, Object> params = MapUtil.newHashMap();

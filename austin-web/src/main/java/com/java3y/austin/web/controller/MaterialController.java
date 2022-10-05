@@ -25,8 +25,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 /**
- * 素材管理接口
- * @author 3y
+ * @description: TODO 素材管理待完善-目前只实现了钉钉素材上传
+ * @author zhaolifeng
+ * @date 2022/10/5 21:47
+ * @version 1.0
  */
 @Slf4j
 @RestController
@@ -42,12 +44,11 @@ public class MaterialController {
 
     /**
      * 素材上传接口
-     *
      * @param file        文件内容
      * @param sendAccount 发送账号
      * @param sendChannel 发送渠道
      * @param fileType    文件类型
-     * @return
+     * @return 结果
      */
     @PostMapping("/upload")
     @ApiOperation("/素材上传接口")

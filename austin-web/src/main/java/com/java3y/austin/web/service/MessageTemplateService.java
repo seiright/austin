@@ -25,8 +25,7 @@ public interface MessageTemplateService {
 
     /**
      * 统计未删除的条数
-     *
-     * @return
+     * @return-未删除的条数
      */
     Long count();
 
@@ -34,7 +33,6 @@ public interface MessageTemplateService {
      * 单个 保存或者更新
      * 存在ID 更新
      * 不存在ID保存
-     *
      * @param messageTemplate
      * @return
      */
@@ -44,9 +42,16 @@ public interface MessageTemplateService {
     /**
      * 软删除(deleted=1)
      *
-     * @param ids
+     * @param ids-传入的id
      */
     void deleteByIds(List<Long> ids);
+
+    /**
+     * 硬删除，将isDeleted=1的条目全删除掉
+     * @author zhaolifeng
+     * @date 2022/10/5 18:57
+     */
+    void delete();
 
     /**
      * 根据ID查询模板信息

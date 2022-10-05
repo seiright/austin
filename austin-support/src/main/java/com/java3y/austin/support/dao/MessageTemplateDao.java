@@ -1,6 +1,7 @@
 package com.java3y.austin.support.dao;
 
 import com.java3y.austin.support.domain.MessageTemplate;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -30,4 +31,16 @@ public interface MessageTemplateDao extends JpaRepository<MessageTemplate, Long>
      */
     Long countByIsDeletedEquals(Integer deleted);
 
+    /**
+     * 通过模板id查询模板
+     * @param id-模板id
+     * @return 消息模板
+     * @author zhaolifeng
+     * @date 2022/10/5 18:58
+     */
+    MessageTemplate getMessageTemplateById(Long id);
+
+    void deleteById(@NotNull Long id);
+
+    List<MessageTemplate> getMessageTemplatesByIsDeleted(Integer isDeleted);
 }

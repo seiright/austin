@@ -16,6 +16,7 @@ import com.java3y.austin.handler.domain.sms.SmsParam;
 import com.java3y.austin.handler.handler.BaseHandler;
 import com.java3y.austin.handler.handler.Handler;
 import com.java3y.austin.handler.script.SmsScriptHolder;
+import com.java3y.austin.support.dao.MessageTemplateDao;
 import com.java3y.austin.support.dao.SmsRecordDao;
 import com.java3y.austin.support.domain.MessageTemplate;
 import com.java3y.austin.support.domain.SmsRecord;
@@ -49,6 +50,9 @@ public class SmsHandler extends BaseHandler implements Handler {
     @Autowired
     private ConfigService config;
 
+    @Autowired
+    private MessageTemplateDao messageTemplateDao;
+
 
     @Override
     public boolean handler(TaskInfo taskInfo) {
@@ -56,6 +60,7 @@ public class SmsHandler extends BaseHandler implements Handler {
                 .phones(taskInfo.getReceiver())
                 .content(getSmsContent(taskInfo))
                 .messageTemplateId(taskInfo.getMessageTemplateId())
+                .templateName(messageTemplateDao.getMessageTemplateById(taskInfo.getMessageTemplateId()).getTemplateName())
                 .build();
         try {
             /**
@@ -77,11 +82,14 @@ public class SmsHandler extends BaseHandler implements Handler {
         return false;
     }
 
+
     /**
      * 流量负载
-     * 根据配置的权重优先走某个账号，并取出一个备份的
-     *
-     * @param messageTypeSmsConfigs
+     * 根据配置的权重优先走某个账号渠道商，并取出一个备份的账号渠道商
+     * @param messageTypeSmsConfigs-对于每种消息类型的 短信配置
+     * @return 账号数组：一个现用账号渠道商，一个备份账号渠道商(如果有)
+     * @author zhaolifeng
+     * @date 2022/10/5 14:23
      */
     private MessageTypeSmsConfig[] loadBalance(List<MessageTypeSmsConfig> messageTypeSmsConfigs) {
 
@@ -94,8 +102,8 @@ public class SmsHandler extends BaseHandler implements Handler {
         Random random = new Random();
         int index = random.nextInt(total) + 1;
 
-        MessageTypeSmsConfig supplier = null;
-        MessageTypeSmsConfig supplierBack = null;
+        MessageTypeSmsConfig supplier;
+        MessageTypeSmsConfig supplierBack;
         for (int i = 0; i < messageTypeSmsConfigs.size(); ++i) {
             if (index <= messageTypeSmsConfigs.get(i).getWeights()) {
                 supplier = messageTypeSmsConfigs.get(i);
@@ -123,8 +131,8 @@ public class SmsHandler extends BaseHandler implements Handler {
      * 营销类短信只有一个发送渠道 YunPianSmsScript
      * 验证码短信只有一个发送渠道 TencentSmsScript
      *
-     * @param msgType
-     * @return
+     * @param msgType-消息类型
+     * @return-渠道账号配置
      */
     private List<MessageTypeSmsConfig> getMessageTypeSmsConfig(Integer msgType) {
 

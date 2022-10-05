@@ -26,6 +26,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.constraints.NotNull;
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
@@ -42,7 +43,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/messageTemplate")
 @Api("发送消息")
-@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true", allowedHeaders = "*")
+@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true", allowedHeaders = "*") //CrossOrigin表示只在origins域内操作
 public class MessageTemplateController {
 
     @Autowired
@@ -110,13 +111,22 @@ public class MessageTemplateController {
     @ApiOperation("/根据Ids删除")
     public BasicResultVO deleteByIds(@PathVariable("id") String id) {
         if (StrUtil.isNotBlank(id)) {
-            List<Long> idList = Arrays.stream(id.split(StrUtil.COMMA)).map(s -> Long.valueOf(s)).collect(Collectors.toList());
+            List<Long> idList = Arrays.stream(id.split(StrUtil.COMMA)).map(Long::valueOf).collect(Collectors.toList());
             messageTemplateService.deleteByIds(idList);
             return BasicResultVO.success();
         }
         return BasicResultVO.fail();
     }
 
+    /**
+     * 硬删除已经软删除的模板
+     */
+    @DeleteMapping("delete")
+    @ApiOperation("/硬删除已经软删除的模板")
+    public BasicResultVO deleteALLIsDeleted() {
+        messageTemplateService.delete();
+        return BasicResultVO.success();
+    }
 
     /**
      * 测试发送接口
@@ -129,7 +139,7 @@ public class MessageTemplateController {
         MessageParam messageParam = MessageParam.builder().receiver(messageTemplateParam.getReceiver()).variables(variables).build();
         SendRequest sendRequest = SendRequest.builder().code(BusinessCode.COMMON_SEND.getCode()).messageTemplateId(messageTemplateParam.getId()).messageParam(messageParam).build();
         SendResponse response = sendService.send(sendRequest);
-        if (response.getCode() != RespStatusEnum.SUCCESS.getCode()) {
+        if (!response.getCode().equals(RespStatusEnum.SUCCESS.getCode())) {
             return BasicResultVO.fail(response.getMsg());
         }
         return BasicResultVO.success(response);
@@ -145,7 +155,7 @@ public class MessageTemplateController {
         SendRequest sendRequest = SendRequest.builder().code(BusinessCode.RECALL.getCode()).
                 messageTemplateId(Long.valueOf(id)).build();
         SendResponse response = recallService.recall(sendRequest);
-        if (response.getCode() != RespStatusEnum.SUCCESS.getCode()) {
+        if (!response.getCode().equals(RespStatusEnum.SUCCESS.getCode())) {
             return BasicResultVO.fail(response.getMsg());
         }
         return BasicResultVO.success(response);

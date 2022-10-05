@@ -13,7 +13,7 @@ public interface CronTaskService {
 
     /**
      * 新增/修改 定时任务
-     * @param xxlJobInfo
+     * @param xxlJobInfo-定时任务信息
      *
      * @return 新增时返回任务Id，修改时无返回
      */
@@ -22,7 +22,7 @@ public interface CronTaskService {
     /**
      * 删除定时任务
      *
-     * @param taskId
+     * @param taskId-任务id
      * @return BasicResultVO
      */
     BasicResultVO deleteCronTask(Integer taskId);
@@ -30,7 +30,7 @@ public interface CronTaskService {
     /**
      * 启动定时任务
      *
-     * @param taskId
+     * @param taskId-任务id
      * @return BasicResultVO
      */
     BasicResultVO startCronTask(Integer taskId);
@@ -39,7 +39,7 @@ public interface CronTaskService {
     /**
      * 暂停定时任务
      *
-     * @param taskId
+     * @param taskId-任务id
      * @return BasicResultVO
      */
     BasicResultVO stopCronTask(Integer taskId);
@@ -47,15 +47,15 @@ public interface CronTaskService {
 
     /**
      * 得到执行器Id
-     * @param appName
-     * @param title
+     * @param appName-app名称
+     * @param title-job名称
      * @return BasicResultVO
      */
     BasicResultVO getGroupId(String appName, String title);
 
     /**
      * 创建执行器
-     * @param xxlJobGroup
+     * @param xxlJobGroup-xxlJob组
      * @return BasicResultVO
      */
     BasicResultVO createGroup(XxlJobGroup xxlJobGroup);

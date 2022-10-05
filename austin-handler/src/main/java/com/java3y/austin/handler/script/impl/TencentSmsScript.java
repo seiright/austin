@@ -6,6 +6,7 @@ import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.IdUtil;
 import com.alibaba.fastjson.JSON;
 import com.google.common.base.Throwables;
+import com.java3y.austin.common.constant.MessageConfigConstant;
 import com.java3y.austin.common.constant.SendAccountConstant;
 import com.java3y.austin.common.dto.account.TencentSmsAccount;
 import com.java3y.austin.common.enums.SmsStatus;
@@ -15,6 +16,7 @@ import com.java3y.austin.handler.script.SmsScript;
 import com.java3y.austin.handler.script.SmsScriptHandler;
 import com.java3y.austin.support.domain.SmsRecord;
 import com.java3y.austin.support.utils.AccountUtils;
+import com.java3y.austin.support.utils.SmsUtils;
 import com.tencentcloudapi.common.Credential;
 import com.tencentcloudapi.common.profile.ClientProfile;
 import com.tencentcloudapi.common.profile.HttpProfile;
@@ -46,10 +48,14 @@ public class TencentSmsScript extends BaseSmsScript implements SmsScript {
     @Autowired
     private AccountUtils accountUtils;
 
+    @Autowired
+    private SmsUtils smsUtils;
+
     @Override
     public List<SmsRecord> send(SmsParam smsParam) {
         try {
             TencentSmsAccount tencentSmsAccount = accountUtils.getAccount(SendAccountConstant.TENCENT_SMS_CODE, SendAccountConstant.SMS_ACCOUNT_KEY, SendAccountConstant.SMS_PREFIX, TencentSmsAccount.class);
+            tencentSmsAccount.setTemplateId(smsUtils.getTemplateIdByName(smsParam.getTemplateName(), MessageConfigConstant.SMS_PROVIDER_TENCENT));
             SmsClient client = init(tencentSmsAccount);
             SendSmsRequest request = assembleReq(smsParam, tencentSmsAccount);
             SendSmsResponse response = client.SendSms(request);
@@ -59,7 +65,6 @@ public class TencentSmsScript extends BaseSmsScript implements SmsScript {
             return null;
         }
     }
-
 
     private List<SmsRecord> assembleSmsRecord(SmsParam smsParam, SendSmsResponse response, TencentSmsAccount tencentSmsAccount) {
         if (response == null || ArrayUtil.isEmpty(response.getSendStatusSet())) {
@@ -94,7 +99,12 @@ public class TencentSmsScript extends BaseSmsScript implements SmsScript {
     }
 
     /**
-     * 组装发送短信参数
+     * 依照腾讯云API-组装消息
+     * @param smsParam-消息参数
+     * @param account-腾讯云消息账户
+     * @return 消息请求
+     * @author zhaolifeng
+     * @date 2022/10/3 21:46
      */
     private SendSmsRequest assembleReq(SmsParam smsParam, TencentSmsAccount account) {
         SendSmsRequest req = new SendSmsRequest();
@@ -103,16 +113,15 @@ public class TencentSmsScript extends BaseSmsScript implements SmsScript {
         req.setSmsSdkAppId(account.getSmsSdkAppId());
         req.setSignName(account.getSignName());
         req.setTemplateId(account.getTemplateId());
-        String[] templateParamSet1 = {smsParam.getContent()};
+        String[] templateParamSet1 = smsParam.getContent().split(",");
         req.setTemplateParamSet(templateParamSet1);
         req.setSessionContext(IdUtil.fastSimpleUUID());
         return req;
     }
 
     /**
-     * 初始化 client
-     *
-     * @param account
+     * 初始化消息客户端
+     * @param account-腾讯云消息账户
      */
     private SmsClient init(TencentSmsAccount account) {
         Credential cred = new Credential(account.getSecretId(), account.getSecretKey());

@@ -17,6 +17,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author 3y
@@ -47,13 +48,13 @@ public class TaskHandlerImpl implements TaskHandler {
         // 2. 读取文件得到每一行记录给到队列做lazy batch处理
         CrowdBatchTaskPending crowdBatchTaskPending = context.getBean(CrowdBatchTaskPending.class);
         ReadFileUtils.getCsvRow(messageTemplate.getCronCrowdPath(), row -> {
-            if (CollUtil.isEmpty(row.getFieldMap())
-                || StrUtil.isBlank(row.getFieldMap().get(ReadFileUtils.RECEIVER_KEY))) {
+            Map<String, String> fieldMap = row.getFieldMap();
+            if (CollUtil.isEmpty(fieldMap)
+                || StrUtil.isBlank(fieldMap.get(ReadFileUtils.RECEIVER_KEY))) {
                 return;
             }
-
             // 3. 每一行处理交给LazyPending
-            HashMap<String, String> params = ReadFileUtils.getParamFromLine(row.getFieldMap());
+            HashMap<String, String> params = ReadFileUtils.getParamFromLine(fieldMap);
             CrowdInfoVo crowdInfoVo = CrowdInfoVo.builder().receiver(row.getFieldMap().get(ReadFileUtils.RECEIVER_KEY))
                 .params(params).messageTemplateId(messageTemplateId).build();
             crowdBatchTaskPending.pending(crowdInfoVo);

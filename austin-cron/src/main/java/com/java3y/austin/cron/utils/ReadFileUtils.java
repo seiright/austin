@@ -38,8 +38,9 @@ public class ReadFileUtils {
     public static void getCsvRow(String path, CsvRowHandler csvRowHandler) {
         try {
             // 把首行当做是标题，获取reader
+            //Csv需要
             CsvReader reader = CsvUtil.getReader(new FileReader(path),
-                    new CsvReadConfig().setContainsHeader(true));
+                    new CsvReadConfig().setContainsHeader(true).setTrimField(true));
             reader.read(csvRowHandler);
         } catch (Exception e) {
             log.error("ReadFileUtils#getCsvRow fail!{}", Throwables.getStackTraceAsString(e));
@@ -57,7 +58,7 @@ public class ReadFileUtils {
         try {
             // 把首行当做是标题，获取reader
             CsvReader reader = CsvUtil.getReader(new FileReader(path),
-                    new CsvReadConfig().setContainsHeader(true));
+                    new CsvReadConfig().setContainsHeader(true).setTrimField(true));
             reader.read(countFileRowHandler);
         } catch (Exception e) {
             log.error("ReadFileUtils#getCsvRow fail!{}", Throwables.getStackTraceAsString(e));

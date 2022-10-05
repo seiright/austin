@@ -51,5 +51,10 @@ public class UserTimeLineVo {
          */
         private String creator;
 
+        /**
+         * 模板业务方
+         */
+        private String proposer;
+
     }
 }

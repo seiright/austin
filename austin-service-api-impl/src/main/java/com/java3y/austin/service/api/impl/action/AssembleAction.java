@@ -8,6 +8,9 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.google.common.base.Throwables;
 import com.java3y.austin.common.constant.AustinConstant;
+import com.java3y.austin.common.constant.CommonConstant;
+import com.java3y.austin.common.constant.ContentModelConstant;
+import com.java3y.austin.common.constant.SendAccountConstant;
 import com.java3y.austin.common.domain.TaskInfo;
 import com.java3y.austin.common.dto.model.ContentModel;
 import com.java3y.austin.common.enums.ChannelType;
@@ -28,6 +31,7 @@ import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Field;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author 3y
@@ -111,15 +115,25 @@ public class AssembleAction implements BusinessProcess<SendTaskModel> {
         Map<String, String> variables = messageParam.getVariables();
         JSONObject jsonObject = JSON.parseObject(messageTemplate.getMsgContent());
 
-
         // 通过反射 组装出 contentModel
         Field[] fields = ReflectUtil.getFields(contentModelClass);
         ContentModel contentModel = (ContentModel) ReflectUtil.newInstance(contentModelClass);
+
         for (Field field : fields) {
             String originValue = jsonObject.getString(field.getName());
 
             if (StrUtil.isNotBlank(originValue)) {
-                String resultValue = ContentHolderUtil.replacePlaceHolder(originValue, variables);
+                String resultValue;
+                //短信占位符内容拼接成','连接的字符串
+                //两种情况，一种手动输入content为val,val,val，此时直接赋值即可
+                //一种为文件导入或者post请求，此时直接取variables即可
+                if (sendChannel.equals(ChannelType.SMS.getCode())&&field.getName().equals(ContentModelConstant.CONTENT)){
+                    resultValue = variables.get(ContentModelConstant.CONTENT) ==null
+                            ? variables.values().stream().filter(o->!o.isEmpty()).collect(Collectors.joining(","))
+                            : variables.get(ContentModelConstant.CONTENT);
+                }else {
+                    resultValue = ContentHolderUtil.replacePlaceHolder(originValue, variables);
+                }
                 Object resultObj = JSONUtil.isJsonObj(resultValue) ? JSONUtil.toBean(resultValue, field.getType()) : resultValue;
                 ReflectUtil.setFieldValue(contentModel, field, resultObj);
             }

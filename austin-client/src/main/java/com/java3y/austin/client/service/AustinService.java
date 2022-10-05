@@ -36,7 +36,6 @@ public class AustinService {
 
     /**
      * 根据模板ID撤回消息
-     *
      * @param host 调用的接口host
      * @param id   撤回消息的模板ID
      * @return

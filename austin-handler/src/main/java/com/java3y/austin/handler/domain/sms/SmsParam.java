@@ -28,4 +28,9 @@ public class SmsParam {
      * 发送文案
      */
     private String content;
+
+    /**
+     * 发送模板id
+     */
+    private String templateName;
 }

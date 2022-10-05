@@ -76,6 +76,11 @@ public class MessageTemplate implements Serializable {
     private Integer templateType;
 
     /**
+     * 模板名称
+     */
+    private String templateName;
+
+    /**
      * 屏蔽类型
      */
     private Integer shieldType;

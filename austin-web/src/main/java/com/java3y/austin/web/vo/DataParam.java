@@ -22,7 +22,6 @@ public class DataParam {
      */
     private String receiver;
 
-
     /**
      * 业务Id(数据追踪使用)
      * 生成逻辑参考 TaskInfoUtils
@@ -35,8 +34,4 @@ public class DataParam {
      * 日期时间(检索短信的条件使用)
      */
     private Long dateTime;
-
-
-
-
 }

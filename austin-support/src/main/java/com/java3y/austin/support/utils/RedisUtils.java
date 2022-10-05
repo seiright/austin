@@ -48,13 +48,11 @@ public class RedisUtils {
 
     /**
      * hGetAll
-     *
-     * @param key
+     * @param key-redis key
      */
     public Map<Object, Object> hGetAll(String key) {
         try {
-            Map<Object, Object> entries = redisTemplate.opsForHash().entries(key);
-            return entries;
+            return redisTemplate.opsForHash().entries(key);
         } catch (Exception e) {
             log.error("RedisUtils#hGetAll fail! e:{}", Throwables.getStackTraceAsString(e));
         }
@@ -64,7 +62,7 @@ public class RedisUtils {
     /**
      * lRange
      *
-     * @param key
+     * @param key-redisKey
      */
     public List<String> lRange(String key, long start, long end) {
         try {

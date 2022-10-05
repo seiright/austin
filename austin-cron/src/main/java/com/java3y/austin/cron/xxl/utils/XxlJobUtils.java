@@ -75,7 +75,7 @@ public class XxlJobUtils {
 
     /**
      * 根据就配置文件的内容获取jobGroupId，没有则创建
-     * @return
+     * @return jobGroupId
      */
     private Integer queryJobGroupId() {
         BasicResultVO basicResultVO = cronTaskService.getGroupId(appName, jobHandlerName);

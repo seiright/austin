@@ -78,6 +78,11 @@ public class MessageTemplateServiceImpl implements MessageTemplateService {
     }
 
     @Override
+    public void delete() {
+        messageTemplateDao.getMessageTemplatesByIsDeleted(AustinConstant.TRUE).forEach(o-> messageTemplateDao.deleteById(o.getId()));
+    }
+
+    @Override
     public MessageTemplate queryById(Long id) {
         return messageTemplateDao.findById(id).get();
     }
@@ -118,6 +123,7 @@ public class MessageTemplateServiceImpl implements MessageTemplateService {
     public BasicResultVO stopCronTask(Long id) {
         // 1.修改模板状态
         MessageTemplate messageTemplate = messageTemplateDao.findById(id).get();
+        // TODO 为什么要克隆一个再修改
         MessageTemplate clone = ObjectUtil.clone(messageTemplate).setMsgStatus(MessageStatus.STOP.getCode()).setUpdated(Math.toIntExact(DateUtil.currentSeconds()));
         messageTemplateDao.save(clone);
 
@@ -129,23 +135,20 @@ public class MessageTemplateServiceImpl implements MessageTemplateService {
     /**
      * 初始化状态信息
      * TODO 创建者 修改者 团队
-     *
-     * @param messageTemplate
+     * @param messageTemplate-消息模板
      */
     private void initStatus(MessageTemplate messageTemplate) {
         messageTemplate.setFlowId(StrUtil.EMPTY)
                 .setMsgStatus(MessageStatus.INIT.getCode()).setAuditStatus(AuditStatus.WAIT_AUDIT.getCode())
-                .setCreator("Java3y").setUpdator("Java3y").setTeam("公众号Java3y").setAuditor("3y")
+                .setCreator("zlf").setUpdator("zlf").setTeam("修修的团队").setAuditor("xiuxiu")
                 .setCreated(Math.toIntExact(DateUtil.currentSeconds()))
                 .setIsDeleted(AustinConstant.FALSE);
-
     }
 
     /**
      * 1. 重置模板的状态
      * 2. 修改定时任务信息(如果存在)
-     *
-     * @param messageTemplate
+     * @param messageTemplate-消息模板
      */
     private void resetStatus(MessageTemplate messageTemplate) {
         messageTemplate.setUpdator(messageTemplate.getUpdator())

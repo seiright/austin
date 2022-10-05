@@ -36,7 +36,6 @@ public class CronTaskHandler {
 
         Long messageTemplateId = Long.valueOf(XxlJobHelper.getJobParam());
         dtpExecutor.execute(() -> taskHandler.handle(messageTemplateId));
-
     }
 
 }

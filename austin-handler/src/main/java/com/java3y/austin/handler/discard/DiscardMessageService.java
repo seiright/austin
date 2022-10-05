@@ -28,8 +28,8 @@ public class DiscardMessageService {
 
     /**
      * 丢弃消息，配置在apollo
-     * @param taskInfo
-     * @return
+     * @param taskInfo-消息信息
+     * @return 是否丢弃
      */
     public boolean isDiscard(TaskInfo taskInfo) {
         // 配置示例:	["1","2"]

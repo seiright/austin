@@ -19,6 +19,14 @@ public abstract class BaseSmsScript implements SmsScript {
     @Autowired
     private SmsScriptHolder smsScriptHolder;
 
+    /**
+     * 1. 注册短信服务的handler，在对象依赖注入后调用。
+     * 2. 执行顺序：Constructor > @Autowired > @PostConstruct
+     * 3. 由于TencentSmsScript和YunPianSmsScript都继承了当前类，因此这两者在注册bean的时候会触发registerProcessScript()方法
+     * 4. SmsScript需在类上加@SmsScriptHandler注解，以注册渠道商短信处理业务。
+     * @author zhaolifeng
+     * @date 2022/10/5 14:31
+     */
     @PostConstruct
     public void registerProcessScript() {
         if (ArrayUtils.isEmpty(this.getClass().getAnnotations())) {

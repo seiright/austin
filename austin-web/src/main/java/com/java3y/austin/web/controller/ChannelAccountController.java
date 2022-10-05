@@ -67,7 +67,7 @@ public class ChannelAccountController {
     @ApiOperation("/根据Ids删除")
     public BasicResultVO deleteByIds(@PathVariable("id") String id) {
         if (StrUtil.isNotBlank(id)) {
-            List<Long> idList = Arrays.stream(id.split(StrUtil.COMMA)).map(s -> Long.valueOf(s)).collect(Collectors.toList());
+            List<Long> idList = Arrays.stream(id.split(StrUtil.COMMA)).map(Long::valueOf).collect(Collectors.toList());
             channelAccountService.deleteByIds(idList);
             return BasicResultVO.success();
         }

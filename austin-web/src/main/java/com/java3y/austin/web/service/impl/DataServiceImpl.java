@@ -50,6 +50,7 @@ public class DataServiceImpl implements DataService {
 
     @Override
     public UserTimeLineVo getTraceUserInfo(String receiver) {
+        //去redis查找receiver的所有纪录
         List<String> userInfoList = redisUtils.lRange(receiver, 0, -1);
         if (CollUtil.isEmpty(userInfoList)) {
             return UserTimeLineVo.builder().items(new ArrayList<>()).build();
@@ -84,13 +85,15 @@ public class DataServiceImpl implements DataService {
                 String stateDescription = AnchorState.getDescriptionByCode(simpleAnchorInfo.getState());
                 sb.append(startTime).append(StrPool.C_COLON).append(stateDescription).append("==>");
             }
+            sb.delete(sb.length()-"==>".length(),sb.length());
 
             for (String detail : sb.toString().split(StrPool.CRLF)) {
                 if (StrUtil.isNotBlank(detail)) {
                     UserTimeLineVo.ItemsVO itemsVO = UserTimeLineVo.ItemsVO.builder()
                             .businessId(entry.getKey())
-                            .sendType(ChannelType.getEnumByCode(messageTemplate.getSendChannel()).getDescription())
+                            .sendType(Objects.requireNonNull(ChannelType.getEnumByCode(messageTemplate.getSendChannel())).getDescription())
                             .creator(messageTemplate.getCreator())
+                            .proposer(messageTemplate.getProposer())
                             .title(messageTemplate.getName())
                             .detail(detail)
                             .build();
@@ -115,11 +118,11 @@ public class DataServiceImpl implements DataService {
         List<String> xAxisList = new ArrayList<>();
         List<Integer> actualData = new ArrayList<>();
 
-        /**
+        /*
          * key：state
          * value:stateCount
          */
-        Map<Object, Object> anchorResult = redisUtils.hGetAll(getRealBusinessId(businessId));
+        Map<Object, Object> anchorResult = redisUtils.hGetAll(businessId);
         if (CollUtil.isNotEmpty(anchorResult)) {
             anchorResult = MapUtil.sort(anchorResult);
             for (Map.Entry<Object, Object> entry : anchorResult.entrySet()) {
@@ -134,14 +137,15 @@ public class DataServiceImpl implements DataService {
 
         return EchartsVo.builder()
                 .title(EchartsVo.TitleVO.builder().text(title).build())
-                .legend(EchartsVo.LegendVO.builder().data(Arrays.asList(AmisVoConstant.LEGEND_TITLE)).build())
+                .legend(EchartsVo.LegendVO.builder().data(Collections.singletonList(AmisVoConstant.LEGEND_TITLE)).build())
                 .xAxis(EchartsVo.XAxisVO.builder().data(xAxisList).build())
-                .series(Arrays.asList(EchartsVo.SeriesVO.builder().name(AmisVoConstant.LEGEND_TITLE).type(AmisVoConstant.TYPE).data(actualData).build()))
+                .series(Collections.singletonList(EchartsVo.SeriesVO.builder().name(AmisVoConstant.LEGEND_TITLE).type(AmisVoConstant.TYPE).data(actualData).build()))
                 .yAxis(EchartsVo.YAxisVO.builder().build())
                 .tooltip(EchartsVo.TooltipVO.builder().build())
                 .build();
 
     }
+
 
     @Override
     public SmsTimeLineVo getTraceSmsInfo(DataParam dataParam) {
@@ -149,6 +153,7 @@ public class DataServiceImpl implements DataService {
         ArrayList<SmsTimeLineVo.ItemsVO> itemsVOS = new ArrayList<>();
         SmsTimeLineVo smsTimeLineVo = SmsTimeLineVo.builder().items(itemsVOS).build();
 
+        //乘1000L转换成年月日时分秒
         Integer sendDate = Integer.valueOf(DateUtil.format(new Date(dataParam.getDateTime() * 1000L)
                 , DatePattern.PURE_DATE_PATTERN));
         List<SmsRecord> smsRecordList = smsRecordDao.findByPhoneAndSendDate(Long.valueOf(dataParam.getReceiver()), sendDate);
@@ -167,12 +172,13 @@ public class DataServiceImpl implements DataService {
                     itemsVO.setBusinessId(String.valueOf(smsRecord.getMessageTemplateId()));
                     itemsVO.setContent(smsRecord.getMsgContent());
                     itemsVO.setSendType(SmsStatus.getDescriptionByStatus(smsRecord.getStatus()));
-                    itemsVO.setSendTime(DateUtil.format(new Date(Long.valueOf(smsRecord.getCreated()*1000L)), DatePattern.NORM_DATETIME_PATTERN));
+                    itemsVO.setSendTime(DateUtil.format(new Date(smsRecord.getCreated() * 1000L), DatePattern.NORM_DATETIME_PATTERN));
 
                 } else {
+                    // TODO 什么时候会有回执？好像没配置
                     itemsVO.setReceiveType(SmsStatus.getDescriptionByStatus(smsRecord.getStatus()));
                     itemsVO.setReceiveContent(smsRecord.getReportContent());
-                    itemsVO.setReceiveTime(DateUtil.format(new Date(Long.valueOf(smsRecord.getUpdated()*1000L)), DatePattern.NORM_DATETIME_PATTERN));
+                    itemsVO.setReceiveTime(DateUtil.format(new Date(smsRecord.getUpdated() * 1000L), DatePattern.NORM_DATETIME_PATTERN));
                 }
             }
             itemsVOS.add(itemsVO);

@@ -8,23 +8,23 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
+
 /**
- * 素材接口
- *
- * @author 3y
+ * @description: 素材接口 TODO：目前只实现了钉钉
+ * @author zhaolifeng
+ * @date 2022/10/5 21:41
+ * @version 1.0
  */
 public interface MaterialService {
 
 
     /**
      * 钉钉素材上传
-     * @param file
-     * @param sendAccount
-     * @param fileType
-     * @return
+     * @param file-文件
+     * @param sendAccount-发送账户
+     * @param fileType-文件类型
+     * @return 结果
      */
     BasicResultVO dingDingMaterialUpload(MultipartFile file, String sendAccount, String fileType);
-
-
 
 }

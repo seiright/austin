@@ -20,8 +20,6 @@ public @interface SmsScriptHandler {
 
     /**
      * 这里输入脚本名
-     *
-     * @return
      */
     String value();
 }
