@@ -10,15 +10,18 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+/**
+ * 短信（回执和发送记录）
+ * @description:
+ * @author zhaolifeng
+ * @date 2022/10/6 17:36
+ * @version 1.0
+ */
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-/**
- * 短信（回执和发送记录）
- * @author 3y
- */
 public class SmsRecord {
 
     @Id

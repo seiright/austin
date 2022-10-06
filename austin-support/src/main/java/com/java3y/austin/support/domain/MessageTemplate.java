@@ -13,19 +13,24 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.io.Serializable;
 
+/**
+ * 消息模板
+ * @description:
+ * @author zhaolifeng
+ * @date 2022/10/6 17:25
+ * @version 1.0
+ */
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Accessors(chain = true)
-/**
- *
- * 消息模板DO
- * @author 3y
- */
 public class MessageTemplate implements Serializable {
 
+    /**
+     * 自增id
+     */
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
@@ -67,11 +72,13 @@ public class MessageTemplate implements Serializable {
 
     /**
      * 发送渠道
+     * <p>枚举值： {@link com.java3y.austin.common.enums.ChannelType}
      */
     private Integer sendChannel;
 
     /**
      * 模板类型
+     * <p>枚举值： {@link com.java3y.austin.common.enums.TemplateType}
      */
     private Integer templateType;
 
@@ -82,18 +89,20 @@ public class MessageTemplate implements Serializable {
 
     /**
      * 屏蔽类型
+     * <p>枚举值： {@link com.java3y.austin.common.enums.ShieldType}
      */
     private Integer shieldType;
 
     /**
      * 消息类型
+     * <p>枚举值： {@link com.java3y.austin.common.enums.MessageType}
      */
     private Integer msgType;
 
     /**
      * 推送消息的时间
-     * 0：立即发送
-     * else：crontab 表达式
+     * <p>0：立即发送
+     * <p>else：<a href="https://www.matools.com/cron">crontab表达式
      */
     private String expectPushTime;
 
@@ -133,9 +142,7 @@ public class MessageTemplate implements Serializable {
     private String proposer;
 
     /**
-     * 是否删除
-     * 0：未删除
-     * 1：已删除
+     * 是否删除 0：未删除 1：已删除
      */
     private Integer isDeleted;
 

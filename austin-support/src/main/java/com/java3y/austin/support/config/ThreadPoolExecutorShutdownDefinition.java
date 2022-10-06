@@ -1,6 +1,7 @@
 package com.java3y.austin.support.config;
 
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextClosedEvent;
 import org.springframework.stereotype.Component;
@@ -14,8 +15,10 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * 优雅关闭线程池
- *
- * @author 3y
+ * @description:
+ * @author zhaolifeng
+ * @date 2022/10/6 20:55
+ * @version 1.0
  */
 @Component
 @Slf4j
@@ -44,7 +47,7 @@ public class ThreadPoolExecutorShutdownDefinition implements ApplicationListener
      * @param event the event to respond to
      */
     @Override
-    public void onApplicationEvent(ContextClosedEvent event) {
+    public void onApplicationEvent(@NotNull ContextClosedEvent event) {
         log.info("容器关闭前处理线程池优雅关闭开始, 当前要处理的线程池数量为: {} >>>>>>>>>>>>>>>>", POOLS.size());
         if (CollectionUtils.isEmpty(POOLS)) {
             return;

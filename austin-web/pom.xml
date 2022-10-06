@@ -52,13 +52,6 @@
             <artifactId>springfox-boot-starter</artifactId>
         </dependency>
 
-        <!--热部署-->
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-devtools</artifactId>-->
-<!--            <optional>true</optional>-->
-<!--        </dependency>-->
-
     </dependencies>
 
     <build>
@@ -73,16 +66,6 @@
                             <artifactId>lombok</artifactId>
                         </exclude>
                     </excludes>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <!--没有该项配置，热部署不会起作用-->
-                <configuration>
-                    <fork>true</fork>
-                    <skip>true</skip>   <!--否则模块打包时候会提示 unable to find main class-->
-                    <addResources>true</addResources>
                 </configuration>
             </plugin>
         </plugins>

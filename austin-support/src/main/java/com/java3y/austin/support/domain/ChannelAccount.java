@@ -11,8 +11,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 /**
- * @author 3y
  * 渠道账号信息
+ * @description: TODO
+ * @author zhaolifeng
+ * @date 2022/10/6 17:23
+ * @version 1.0
  */
 @Data
 @Builder
@@ -32,7 +35,7 @@ public class ChannelAccount {
 
     /**
      * 发送渠道
-     * 枚举值：com.java3y.austin.common.enums.ChannelType
+     * <p>枚举值： {@link com.java3y.austin.common.enums.ChannelType}
      */
     private Integer sendChannel;
 
@@ -43,8 +46,8 @@ public class ChannelAccount {
 
     /**
      * 是否删除
-     * 0：未删除
-     * 1：已删除
+     * <p>0：未删除
+     * <p>1：已删除
      */
     private Integer isDeleted;
 

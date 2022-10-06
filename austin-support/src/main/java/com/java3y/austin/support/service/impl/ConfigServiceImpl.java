@@ -13,8 +13,11 @@ import java.nio.charset.StandardCharsets;
 
 
 /**
- * @author 3y
- * 读取配置实现类
+ * 获取配置的实现类
+ * @description:
+ * @author zhaolifeng
+ * @date 2022/10/6 21:09
+ * @version 1.0
  */
 @Service
 public class ConfigServiceImpl implements ConfigService {
@@ -32,6 +35,7 @@ public class ConfigServiceImpl implements ConfigService {
     private Boolean enableApollo;
     @Value("${apollo.bootstrap.namespaces}")
     private String namespaces;
+
     /**
      * nacos配置
      */
@@ -41,6 +45,12 @@ public class ConfigServiceImpl implements ConfigService {
     private NacosUtils nacosUtils;
 
 
+    /**
+     * 从apollo或者nacos或者本地properties获取配置
+     * @description: TODO 多个apollo命名空间怎么处理
+     * @author zhaolifeng
+     * @date 2022/10/6 21:07
+     */
     @Override
     public String getProperty(String key, String defaultValue) {
         if (enableApollo) {

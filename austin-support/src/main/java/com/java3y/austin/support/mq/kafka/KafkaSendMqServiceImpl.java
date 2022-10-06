@@ -14,29 +14,36 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 
 /**
- * @author 3y
  * kafka 发送实现类
+ * @description: TODO
+ * @author zhaolifeng
+ * @date 2022/10/6 21:10
+ * @version 1.0
  */
 @Slf4j
 @Service
 @ConditionalOnProperty(name = "austin.mq.pipeline", havingValue = MessageQueuePipeline.KAFKA)
 public class KafkaSendMqServiceImpl implements SendMqService {
 
+    @SuppressWarnings("rawtypes")
     @Autowired
     private KafkaTemplate kafkaTemplate;
 
     @Value("${austin.business.tagId.key}")
     private String tagIdKey;
 
+
+
     @Override
+    @SuppressWarnings({"rawtypes","unchecked"})
     public void send(String topic, String jsonValue, String tagId) {
         if (StrUtil.isNotBlank(tagId)) {
-            List<Header> headers = Arrays.asList(new RecordHeader(tagIdKey, tagId.getBytes(StandardCharsets.UTF_8)));
+            List<Header> headers = Collections.singletonList(new RecordHeader(tagIdKey, tagId.getBytes(StandardCharsets.UTF_8)));
             kafkaTemplate.send(new ProducerRecord(topic, null, null, null, jsonValue, headers));
         } else {
             kafkaTemplate.send(topic, jsonValue);

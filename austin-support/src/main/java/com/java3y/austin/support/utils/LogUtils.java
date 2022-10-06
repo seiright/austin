@@ -10,7 +10,6 @@ import com.java3y.austin.support.mq.SendMqService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
 /**
@@ -32,7 +31,7 @@ public class LogUtils extends CustomLogListener {
      * 方法切面的日志 @OperationLog 所产生
      */
     @Override
-    public void createLog(LogDTO logDTO) throws Exception {
+    public void createLog(LogDTO logDTO) {
         log.info(JSON.toJSONString(logDTO));
     }
 

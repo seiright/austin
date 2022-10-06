@@ -11,10 +11,13 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+
 /**
- * @author 3y
- * @date 2021/11/22
- * @description 发送消息任务模型
+ * 发送消息任务模型
+ * @description:
+ * @author zhaolifeng
+ * @date 2022/10/6 22:15
+ * @version 1.0
  */
 @Data
 @AllArgsConstructor

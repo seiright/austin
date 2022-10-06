@@ -5,12 +5,9 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.google.common.base.Throwables;
 import com.java3y.austin.common.constant.AustinConstant;
-import com.java3y.austin.common.constant.CommonConstant;
 import com.java3y.austin.common.constant.ContentModelConstant;
-import com.java3y.austin.common.constant.SendAccountConstant;
 import com.java3y.austin.common.domain.TaskInfo;
 import com.java3y.austin.common.dto.model.ContentModel;
 import com.java3y.austin.common.enums.ChannelType;
@@ -33,10 +30,13 @@ import java.lang.reflect.Field;
 import java.util.*;
 import java.util.stream.Collectors;
 
+
 /**
- * @author 3y
- * @date 2021/11/22
- * @description 拼装参数
+ * 组装消息参数process
+ * @description:
+ * @author zhaolifeng
+ * @date 2022/10/6 23:00
+ * @version 1.0
  */
 @Slf4j
 @Service
@@ -69,11 +69,15 @@ public class AssembleAction implements BusinessProcess<SendTaskModel> {
 
     }
 
+
     /**
-     * 组装 TaskInfo 任务消息
      *
-     * @param sendTaskModel
-     * @param messageTemplate
+     * 组装 TaskInfo 任务消息
+     * @param sendTaskModel 任务模型
+     * @param messageTemplate 消息模板
+     * @return 任务信息列表
+     * @author zhaolifeng
+     * @date 2022/10/6 23:01
      */
     private List<TaskInfo> assembleTaskInfo(SendTaskModel sendTaskModel, MessageTemplate messageTemplate) {
         List<MessageParam> messageParamList = sendTaskModel.getMessageParamList();
@@ -103,7 +107,13 @@ public class AssembleAction implements BusinessProcess<SendTaskModel> {
 
     /**
      * 获取 contentModel，替换模板msgContent中占位符信息
+     * @param messageTemplate 消息模板
+     * @param messageParam 消息参数
+     * @return 内容模型
+     * @author zhaolifeng
+     * @date 2022/10/6 23:01
      */
+    @SuppressWarnings({"rawtypes","unchecked"})
     private static ContentModel getContentModelValue(MessageTemplate messageTemplate, MessageParam messageParam) {
 
         // 得到真正的ContentModel 类型

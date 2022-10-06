@@ -7,10 +7,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+
 /**
  * 责任链上下文
- *
- * @author 3y
+ * @description:
+ * @author zhaolifeng
+ * @date 2022/10/6 22:16
+ * @version 1.0
  */
 @Data
 @AllArgsConstructor
@@ -37,6 +40,7 @@ public class ProcessContext<T extends ProcessModel> {
     /**
      * 流程处理的结果
      */
+    @SuppressWarnings("rawtypes")
     BasicResultVO response;
 
 }

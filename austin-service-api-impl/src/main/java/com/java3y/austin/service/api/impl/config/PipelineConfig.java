@@ -18,7 +18,10 @@ import java.util.*;
 
 /**
  * api层的pipeline配置类
- * @author 3y
+ * @description:
+ * @author zhaolifeng
+ * @date 2022/10/6 23:15
+ * @version 1.0
  */
 @Configuration
 public class PipelineConfig {
@@ -33,12 +36,12 @@ public class PipelineConfig {
     private SendMqAction sendMqAction;
 
     /**
-     * 普通发送执行流程
-     * 1. 前置参数校验
-     * 2. 组装参数
-     * 3. 后置参数校验
-     * 4. 发送消息至MQ
-     * @return
+     * 普通发送执行流程<ol>
+     * <li> 前置参数校验
+     * <li> 组装参数
+     * <li> 后置参数校验
+     * <li> 发送消息至MQ</ol>
+     * @return 执行模板
      */
     @Bean("commonSendTemplate")
     public ProcessTemplate commonSendTemplate() {
@@ -49,10 +52,10 @@ public class PipelineConfig {
     }
 
     /**
-     * 消息撤回执行流程
-     * 1.组装参数
-     * 2.发送MQ
-     * @return
+     * 消息撤回执行流程<ol>
+     * <li> 组装参数
+     * <li> 发送MQ</ol>
+     * @return 执行模板
      */
     @Bean("recallMessageTemplate")
     public ProcessTemplate recallMessageTemplate() {
@@ -64,7 +67,7 @@ public class PipelineConfig {
     /**
      * pipeline流程控制器
      * 后续扩展则加BusinessCode和ProcessTemplate
-     * @return
+     * @return 流程控制器
      */
     @Bean
     public ProcessController processController() {

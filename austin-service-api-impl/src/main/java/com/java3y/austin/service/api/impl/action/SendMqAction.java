@@ -45,10 +45,10 @@ public class SendMqAction implements BusinessProcess<SendTaskModel> {
         SendTaskModel sendTaskModel = context.getProcessModel();
         try {
             if (BusinessCode.COMMON_SEND.getCode().equals(context.getCode())) {
-                String message = JSON.toJSONString(sendTaskModel.getTaskInfo(), new SerializerFeature[]{SerializerFeature.WriteClassName});
+                String message = JSON.toJSONString(sendTaskModel.getTaskInfo(), SerializerFeature.WriteClassName);
                 sendMqService.send(sendMessageTopic, message, tagId);
             } else if (BusinessCode.RECALL.getCode().equals(context.getCode())) {
-                String message = JSON.toJSONString(sendTaskModel.getMessageTemplate(), new SerializerFeature[]{SerializerFeature.WriteClassName});
+                String message = JSON.toJSONString(sendTaskModel.getMessageTemplate(), SerializerFeature.WriteClassName);
                 sendMqService.send(austinRecall, message, tagId);
             }
         } catch (Exception e) {

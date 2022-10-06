@@ -15,8 +15,10 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * 延迟消费 阻塞队列-消费者和生产者实现
- *
- * @author 3y
+ * @description:
+ * @author zhaolifeng
+ * @date 2022/10/6 21:52
+ * @version 1.0
  */
 @Slf4j
 @Data
@@ -80,10 +82,10 @@ public abstract class AbstractLazyPending<T> {
     }
 
     /**
-     * 1. 数量超限
-     * 2. 时间超限
-     *
-     * @return
+     * 处理前提（满足其一）
+     * <ul><li>数量超限
+     * <li>时间超限</ul>
+     * @return 任务是否需要开始处理
      */
     private boolean dataReady() {
         return tasks.size() >= pendingParam.getNumThreshold() ||
@@ -93,7 +95,7 @@ public abstract class AbstractLazyPending<T> {
     /**
      * 将元素放入阻塞队列中
      *
-     * @param t
+     * @param t 待执行任务
      */
     public void pending(T t) {
         try {
@@ -105,8 +107,7 @@ public abstract class AbstractLazyPending<T> {
 
     /**
      * 消费阻塞队列元素时的方法
-     *
-     * @param t
+     * @param t 任务列表
      */
     public void handle(List<T> t) {
         if (t.isEmpty()) {
@@ -121,8 +122,7 @@ public abstract class AbstractLazyPending<T> {
 
     /**
      * 处理阻塞队列的元素 真正方法
-     *
-     * @param list
+     * @param list 任务列表
      */
     public abstract void doHandle(List<T> list);
 

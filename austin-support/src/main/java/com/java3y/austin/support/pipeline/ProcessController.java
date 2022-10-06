@@ -12,10 +12,13 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.List;
 import java.util.Map;
 
+
 /**
  * 流程控制器
- *
- * @author 3y
+ * @description:
+ * @author zhaolifeng
+ * @date 2022/10/6 22:16
+ * @version 1.0
  */
 @Slf4j
 @Data
@@ -29,24 +32,20 @@ public class ProcessController {
 
     /**
      * 执行责任链
-     *
-     * @param context
+     * @param context 责任链上下文
      * @return 返回上下文内容
      */
+    @SuppressWarnings({"rawtypes","unchecked"})
     public ProcessContext process(ProcessContext context) {
 
-        /**
-         * 前置检查
-         */
+        //前置检查
         try {
             preCheck(context);
         } catch (ProcessException e) {
             return e.getProcessContext();
         }
 
-        /**
-         * 遍历流程节点
-         */
+        //遍历流程结点
         List<BusinessProcess> processList = templateConfig.get(context.getCode()).getProcessList();
         for (BusinessProcess businessProcess : processList) {
             businessProcess.process(context);
@@ -64,6 +63,7 @@ public class ProcessController {
      * @param context 执行上下文
      * @throws ProcessException 异常信息
      */
+    @SuppressWarnings("rawtypes")
     private void preCheck(ProcessContext context) throws ProcessException {
         // 上下文
         if (context == null) {

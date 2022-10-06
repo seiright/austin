@@ -32,6 +32,9 @@ public class ThreadPoolConstant {
      * big
      */
     public static final Integer BIG_QUEUE_SIZE = 1024;
+
+
+    @SuppressWarnings(value = "rawtypes")
     public static final BlockingQueue BIG_BLOCKING_QUEUE = new LinkedBlockingQueue(BIG_QUEUE_SIZE);
 
 }

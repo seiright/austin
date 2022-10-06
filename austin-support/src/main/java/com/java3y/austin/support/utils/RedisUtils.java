@@ -9,6 +9,7 @@ import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.script.RedisScript;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
 
 import java.util.HashMap;
 import java.util.List;
@@ -37,6 +38,7 @@ public class RedisUtils {
             List<String> value = redisTemplate.opsForValue().multiGet(keys);
             if (CollUtil.isNotEmpty(value)) {
                 for (int i = 0; i < keys.size(); i++) {
+                    Assert.notNull(value,"key值不存在");
                     result.put(keys.get(i), value.get(i));
                 }
             }
@@ -152,16 +154,16 @@ public class RedisUtils {
 
     /**
      * 执行指定的lua脚本返回执行结果
-     * --KEYS[1]: 限流 key
-     * --ARGV[1]: 限流窗口
-     * --ARGV[2]: 当前时间戳（作为score）
-     * --ARGV[3]: 阈值
-     * --ARGV[4]: score 对应的唯一value
+     * <p>--KEYS[1]: 限流 key
+     * <p>--ARGV[1]: 限流窗口
+     * <p>--ARGV[2]: 当前时间戳（作为score）
+     * <p>--ARGV[3]: 阈值
+     * <p>--ARGV[4]: score 对应的唯一value
      *
-     * @param redisScript
-     * @param keys
-     * @param args
-     * @return
+     * @param redisScript 封装好的lua脚本
+     * @param keys 限流key
+     * @param args 窗口、时间戳、阈值、score
+     * @return 是否执行成功
      */
     public Boolean execLimitLua(RedisScript<Long> redisScript, List<String> keys, String... args) {
 

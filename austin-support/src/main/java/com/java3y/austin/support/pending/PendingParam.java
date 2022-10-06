@@ -12,8 +12,11 @@ import java.util.concurrent.ExecutorService;
 
 
 /**
- * @author 3y
  * pending初始化参数类
+ * @description:
+ * @author zhaolifeng
+ * @date 2022/10/6 21:52
+ * @version 1.0
  */
 @Data
 @AllArgsConstructor

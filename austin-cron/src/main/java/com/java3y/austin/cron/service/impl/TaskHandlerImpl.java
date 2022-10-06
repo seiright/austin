@@ -19,9 +19,13 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.Map;
 
+
 /**
- * @author 3y
- * @date 2022/2/9
+ * 定时任务处理的实现类
+ * @description:
+ * @author zhaolifeng
+ * @date 2022/10/6 23:28
+ * @version 1.0
  */
 @Service
 @Slf4j
@@ -66,14 +70,15 @@ public class TaskHandlerImpl implements TaskHandler {
 
     /**
      * 文件遍历结束时
-     * 1. 暂停单线程池消费(最后会回收线程池资源)
-     * 2. 更改消息模板的状态(暂未实现)
-     *
+     * <ol><li> 暂停单线程池消费(最后会回收线程池资源)
+     * <li> 更改消息模板的状态(暂未实现)</ol>
+     * TODO 这里方法还没搞明白, 注释还没写
      * @param row
      * @param countCsvRow
      * @param crowdBatchTaskPending
      * @param messageTemplateId
      */
+    @SuppressWarnings("rawtypes")
     private void onComplete(CsvRow row, long countCsvRow, AbstractLazyPending crowdBatchTaskPending, Long messageTemplateId) {
         if (row.getOriginalLineNumber() == countCsvRow) {
             crowdBatchTaskPending.setStop(true);

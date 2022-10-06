@@ -10,10 +10,10 @@ import java.util.*;
 
 /**
  * for Amis!!! amis框架在【表单】回显的时候，不支持嵌套动态语法!!
- * 编写工具类将 List/Object 铺平成 Map
- * https://baidu.gitee.io/amis/zh-CN/components/form/index#%E8%A1%A8%E5%8D%95%E9%A1%B9%E6%95%B0%E6%8D%AE%E5%88%9D%E5%A7%8B%E5%8C%96
- *
- * @author 3y
+ * <p>编写工具类将 List/Object 铺平成 Map
+ * <p><a href="https://baidu.gitee.io/amis/zh-CN/components/form/index#%E8%A1%A8%E5%8D%95%E9%A1%B9%E6%95%B0%E6%8D%AE%E5%88%9D%E5%A7%8B%E5%8C%96">
+ *     amis帮助
+ * @author zlf
  * @date 2022/1/23
  */
 public class ConvertMap {
@@ -21,7 +21,7 @@ public class ConvertMap {
      * 需要打散的字段(将json字符串打散为一个一个字段返回）
      * (主要是用于回显数据)
      */
-    private static final List<String> FLAT_FIELD_NAME = Arrays.asList("msgContent");
+    private static final List<String> FLAT_FIELD_NAME = Collections.singletonList("msgContent");
 
     /**
      * 需要格式化为jsonArray返回的字段
@@ -33,6 +33,7 @@ public class ConvertMap {
      * 钉钉工作消息OA实际的映射
      */
     private static final List<String> DING_DING_OA_FIELD = Arrays.asList("dingDingOaHead", "dingDingOaBody");
+
     /**
      * 钉钉OA字段名实际的映射
      */
@@ -49,8 +50,8 @@ public class ConvertMap {
     /**
      * 将List对象转换成Map(无嵌套)
      *
-     * @param param
-     * @return
+     * @param param-对象列表
+     * @return 对象列表map
      */
     public static <T> List<Map<String, Object>> flatList(List<T> param) {
         List<Map<String, Object>> result = new ArrayList<>();
@@ -66,8 +67,8 @@ public class ConvertMap {
      * <p>
      * 主要兼容amis的回显(前端不用amis可忽略)
      *
-     * @param obj
-     * @return
+     * @param obj-对象
+     * @return 对象map
      */
     public static Map<String, Object> flatSingle(Object obj) {
         Map<String, Object> result = MapUtil.newHashMap(32);
@@ -77,7 +78,7 @@ public class ConvertMap {
                 String fieldValue = (String) ReflectUtil.getFieldValue(obj, field);
                 JSONObject jsonObject = JSONObject.parseObject(fieldValue);
                 for (String key : jsonObject.keySet()) {
-                    /**
+                    /*
                      * 钉钉OA消息回显
                      */
                     if (DING_DING_OA_FIELD.contains(key)) {
@@ -86,7 +87,7 @@ public class ConvertMap {
                             result.put(DING_DING_OA_NAME_MAPPING.get(objKey), object.getString(objKey));
                         }
                     } else if (PARSE_JSON_ARRAY.contains(key)) {
-                        /**
+                        /*
                          * 部分字段是直接传入数组，把数组直接返回(也是用于回显)
                          */
                         result.put(key, JSON.parseArray(jsonObject.getString(key)));

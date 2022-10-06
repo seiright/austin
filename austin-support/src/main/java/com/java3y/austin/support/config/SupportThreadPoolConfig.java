@@ -8,16 +8,15 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @author 3y
- * support 线程池配置类
- *
+ * <p> support 线程池配置类
+ * @author zlf
  */
 public class SupportThreadPoolConfig {
 
     /**
      * 业务：实现pending队列的单线程池
-     * 配置：核心线程可以被回收，当线程池无被引用且无核心线程数，应当被回收
-     * 动态线程池且被Spring管理：false
+     * <p>配置：核心线程可以被回收，当线程池无被引用且无核心线程数，应当被回收
+     * <p>动态线程池且被Spring管理：false
      */
     public static ExecutorService getPendingSingleThreadPool() {
         return ExecutorBuilder.create()

@@ -25,7 +25,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 /**
- * @description: TODO 素材管理待完善-目前只实现了钉钉素材上传
+ * TODO 素材管理待完善-目前只实现了钉钉素材上传
+ * @description:
  * @author zhaolifeng
  * @date 2022/10/5 21:47
  * @version 1.0

@@ -6,7 +6,7 @@ import lombok.ToString;
 
 /**
  * 发送的消息类型
- * @author 3y
+ * @author zlf
  */
 @Getter
 @ToString
@@ -16,6 +16,7 @@ public enum MessageType {
     MARKETING(20,"营销类消息","marketing"),
     AUTH_CODE(30,"验证码消息","auth_code")
     ;
+
     /**
      * 编码值
      */
@@ -35,8 +36,8 @@ public enum MessageType {
 
     /**
      * 通过code获取enum
-     * @param code
-     * @return
+     * @param code 编码值
+     * @return 消息类型
      */
     public static MessageType getEnumByCode(Integer code) {
         MessageType[] values = values();
@@ -47,6 +48,5 @@ public enum MessageType {
         }
         return null;
     }
-
 
 }

@@ -16,9 +16,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * @author 3y
- * @date 2021/11/22
- * @description 前置参数校验
+ * 前置参数校验
+ * @description:
+ * @author zhaolifeng
+ * @date 2022/10/6 22:38
+ * @version 1.0
  */
 @Slf4j
 @Service
@@ -55,7 +57,6 @@ public class PreParamCheckAction implements BusinessProcess<SendTaskModel> {
         // 3.过滤receiver大于100的请求
         if (messageParamList.stream().anyMatch(messageParam -> messageParam.getReceiver().split(StrUtil.COMMA).length > BATCH_RECEIVER_SIZE)) {
             context.setNeedBreak(true).setResponse(BasicResultVO.fail(RespStatusEnum.TOO_MANY_RECEIVER));
-            return;
         }
 
     }

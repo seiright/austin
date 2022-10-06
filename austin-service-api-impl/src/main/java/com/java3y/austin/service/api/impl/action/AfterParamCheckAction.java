@@ -53,9 +53,10 @@ public class AfterParamCheckAction implements BusinessProcess<SendTaskModel> {
     }
 
     /**
-     * 如果指定类型是手机号，检测输入手机号是否合法
-     * 如果指定类型是邮件，检测输入邮件是否合法
-     * @param taskInfo
+     * 过滤非法的接收用户
+     * <ul><li>如果指定类型是手机号，检测输入手机号是否合法
+     * <li>如果指定类型是邮件，检测输入邮件是否合法</ul>
+     * @param taskInfo 任务信息
      */
     private void filterIllegalReceiver(List<TaskInfo> taskInfo) {
         Integer idType = CollUtil.getFirst(taskInfo.iterator()).getIdType();
@@ -64,9 +65,8 @@ public class AfterParamCheckAction implements BusinessProcess<SendTaskModel> {
 
     /**
      * 利用正则过滤掉不合法的接收者
-     *
-     * @param taskInfo
-     * @param regexExp
+     * @param taskInfo 任务信息
+     * @param regexExp 过滤正则表达式
      */
     private void filter(List<TaskInfo> taskInfo, String regexExp) {
         Iterator<TaskInfo> iterator = taskInfo.iterator();

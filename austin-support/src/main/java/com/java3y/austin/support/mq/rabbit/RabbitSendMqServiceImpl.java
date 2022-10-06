@@ -11,8 +11,11 @@ import org.springframework.stereotype.Service;
 
 
 /**
- * @Autor xzcawl
- * @Date 2022/7/15 17:29
+ * rabbitMq发送消息实现类
+ * @description:
+ * @author zhaolifeng
+ * @date 2022/10/6 21:43
+ * @version 1.0
  */
 @Slf4j
 @Service

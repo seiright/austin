@@ -26,6 +26,7 @@ public class SendServiceImpl implements SendService {
     private ProcessController processController;
 
     @Override
+    @SuppressWarnings("rawtypes")
     @OperationLog(bizType = "SendService#send", bizId = "#sendRequest.messageTemplateId", msg = "#sendRequest")
     public SendResponse send(SendRequest sendRequest) {
 
@@ -46,6 +47,7 @@ public class SendServiceImpl implements SendService {
     }
 
     @Override
+    @SuppressWarnings("rawtypes")
     @OperationLog(bizType = "SendService#batchSend", bizId = "#batchSendRequest.messageTemplateId", msg = "#batchSendRequest")
     public SendResponse batchSend(BatchSendRequest batchSendRequest) {
         SendTaskModel sendTaskModel = SendTaskModel.builder()

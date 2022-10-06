@@ -3,22 +3,29 @@ package com.java3y.austin.support.exception;
 import com.java3y.austin.common.enums.RespStatusEnum;
 import com.java3y.austin.support.pipeline.ProcessContext;
 
+
 /**
- * @author SamLee
- * @since 2022-03-29
+ * 流程处理异常类
+ * @description:
+ * @author zhaolifeng
+ * @date 2022/10/6 22:24
+ * @version 1.0
  */
 public class ProcessException extends RuntimeException {
 
     /**
      * 流程处理上下文
      */
+    @SuppressWarnings("rawtypes")
     private final ProcessContext processContext;
 
+    @SuppressWarnings("rawtypes")
     public ProcessException(ProcessContext processContext) {
         super();
         this.processContext = processContext;
     }
 
+    @SuppressWarnings("rawtypes")
     public ProcessException(ProcessContext processContext, Throwable cause) {
         super(cause);
         this.processContext = processContext;
@@ -33,6 +40,7 @@ public class ProcessException extends RuntimeException {
         }
     }
 
+    @SuppressWarnings("rawtypes")
     public ProcessContext getProcessContext() {
         return processContext;
     }

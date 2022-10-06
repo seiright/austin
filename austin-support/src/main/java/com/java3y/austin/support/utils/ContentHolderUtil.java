@@ -1,5 +1,6 @@
 package com.java3y.austin.support.utils;
 
+import org.jetbrains.annotations.NotNull;
 import org.springframework.context.expression.MapAccessor;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
 import org.springframework.util.PropertyPlaceholderHelper;
@@ -8,10 +9,12 @@ import java.text.MessageFormat;
 import java.util.Map;
 
 /**
- * @author 3y
  * 内容占位符 替换
- * <p>
- * austin占位符格式{$var}
+ * <p>austin占位符格式{$var}
+ * @description: TODO
+ * @author zhaolifeng
+ * @date 2022/10/6 17:42
+ * @version 1.0
  */
 public class ContentHolderUtil {
 
@@ -36,9 +39,8 @@ public class ContentHolderUtil {
     }
 
     public static String replacePlaceHolder(final String template, final Map<String, String> paramMap) {
-        String replacedPushContent = PROPERTY_PLACEHOLDER_HELPER.replacePlaceholders(template,
+        return PROPERTY_PLACEHOLDER_HELPER.replacePlaceholders(template,
                 new CustomPlaceholderResolver(template, paramMap));
-        return replacedPushContent;
     }
 
     private static class CustomPlaceholderResolver implements PropertyPlaceholderHelper.PlaceholderResolver {
@@ -52,7 +54,7 @@ public class ContentHolderUtil {
         }
 
         @Override
-        public String resolvePlaceholder(String placeholderName) {
+        public String resolvePlaceholder(@NotNull String placeholderName) {
             String value = paramMap.get(placeholderName);
             if (null == value) {
                 String errorStr = MessageFormat.format("template:{0} require param:{1},but not exist! paramMap:{2}",

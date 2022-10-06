@@ -6,10 +6,15 @@ import com.java3y.austin.support.config.ThreadPoolExecutorShutdownDefinition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.concurrent.ThreadPoolExecutor;
+
+
 /**
- * 线程池工具类
- *
- * @author 3y
+ * 线程工具类
+ * @description:
+ * @author zhaolifeng
+ * @date 2022/10/6 20:55
+ * @version 1.0
  */
 @Component
 public class ThreadPoolUtils {
@@ -20,9 +25,14 @@ public class ThreadPoolUtils {
     private static final String SOURCE_NAME = "austin";
 
 
+
     /**
-     * 1. 将当前线程池 加入到 动态线程池内
-     * 2. 注册 线程池 被Spring管理，优雅关闭
+     * 将当前线程池注册到动态线程池内
+     * <p>1. 将当前线程池 加入到 动态线程池内
+     * <p>2. 注册 线程池 被Spring管理，优雅关闭
+     * @param dtpExecutor 动态线程池执行者，其重写了{@link ThreadPoolExecutor}
+     * @author zhaolifeng
+     * @date 2022/10/6 20:56
      */
     public void register(DtpExecutor dtpExecutor) {
         DtpRegistry.register(dtpExecutor, SOURCE_NAME);

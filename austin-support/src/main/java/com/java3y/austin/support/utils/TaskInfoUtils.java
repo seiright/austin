@@ -5,10 +5,14 @@ import cn.hutool.core.date.DateUtil;
 
 import java.util.Date;
 
+
 /**
  * 生成 消息推送的URL 工具类
- *
- * @author 3y
+ * <p>businessId的组成方式：模板类型(1位)+模板ID(7位)+当天日期(8位)。固定16位
+ * @description:
+ * @author zhaolifeng
+ * @date 2022/10/6 20:49
+ * @version 1.0
  */
 public class TaskInfoUtils {
 
