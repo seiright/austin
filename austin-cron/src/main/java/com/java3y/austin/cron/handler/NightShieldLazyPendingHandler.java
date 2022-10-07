@@ -15,14 +15,16 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 
 /**
  * 夜间屏蔽的延迟处理类
- *
- * example:当消息下发至austin平台时，已经是凌晨1点，业务希望此类消息在次日的早上9点推送
- *
- * @author 3y
+ * <p>example:当消息下发至austin平台时，已经是凌晨1点，业务希望此类消息在次日的早上9点推送
+ * @description:
+ * @author zhaolifeng
+ * @date 2022/10/7 19:51
+ * @version 1.0
  */
 @Service
 @Slf4j
@@ -31,9 +33,12 @@ public class NightShieldLazyPendingHandler {
     private static final String NIGHT_SHIELD_BUT_NEXT_DAY_SEND_KEY = "night_shield_send";
 
     @Autowired
+    @SuppressWarnings("rawtypes")
     private KafkaTemplate kafkaTemplate;
+
     @Value("${austin.business.topic.name}")
     private String topicName;
+
     @Autowired
     private RedisUtils redisUtils;
 
@@ -41,6 +46,7 @@ public class NightShieldLazyPendingHandler {
      * 处理 夜间屏蔽(次日早上9点发送的任务)
      */
     @XxlJob("nightShieldLazyJob")
+    @SuppressWarnings({"unchecked","unused"})
     public void execute() {
         log.info("NightShieldLazyPendingHandler#execute!");
         SupportThreadPoolConfig.getPendingSingleThreadPool().execute(() -> {
@@ -48,8 +54,8 @@ public class NightShieldLazyPendingHandler {
                 String taskInfo = redisUtils.lPop(NIGHT_SHIELD_BUT_NEXT_DAY_SEND_KEY);
                 if (StrUtil.isNotBlank(taskInfo)) {
                     try {
-                        kafkaTemplate.send(topicName, JSON.toJSONString(Arrays.asList(JSON.parseObject(taskInfo, TaskInfo.class))
-                                , new SerializerFeature[]{SerializerFeature.WriteClassName}));
+                        kafkaTemplate.send(topicName, JSON.toJSONString(Collections.singletonList(JSON.parseObject(taskInfo, TaskInfo.class))
+                                , SerializerFeature.WriteClassName));
                     } catch (Exception e) {
                         log.error("nightShieldLazyJob send kafka fail! e:{},params:{}", Throwables.getStackTraceAsString(e), taskInfo);
                     }

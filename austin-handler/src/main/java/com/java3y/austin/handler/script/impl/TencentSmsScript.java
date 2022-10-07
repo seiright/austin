@@ -32,13 +32,17 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * @author 3y
- * @date 2021/11/6
- * 1. 发送短信接入文档：https://cloud.tencent.com/document/api/382/55981
- * 2. 推荐直接使用SDK调用
- * 3. 推荐使用API Explorer 生成代码
+ * 腾讯云短信服务
+ * <ol>
+ *     <li><a href="https://cloud.tencent.com/document/api/382/55981">发送短信接入文档</a>
+ *     <li>推荐直接使用SDK调用
+ *     <li>推荐使用API Explorer 生成代码
+ * </ol>
+ * @description:
+ * @author zhaolifeng
+ * @date 2022/10/7 22:07
+ * @version 1.0
  */
-
 @Slf4j
 @SmsScriptHandler("TencentSmsScript")
 public class TencentSmsScript extends BaseSmsScript implements SmsScript {
@@ -108,13 +112,13 @@ public class TencentSmsScript extends BaseSmsScript implements SmsScript {
      */
     private SendSmsRequest assembleReq(SmsParam smsParam, TencentSmsAccount account) {
         SendSmsRequest req = new SendSmsRequest();
-        String[] phoneNumberSet1 = smsParam.getPhones().toArray(new String[smsParam.getPhones().size() - 1]);
-        req.setPhoneNumberSet(phoneNumberSet1);
+        String[] phoneNumberSet = smsParam.getPhones().toArray(new String[smsParam.getPhones().size() - 1]);
+        req.setPhoneNumberSet(phoneNumberSet);
         req.setSmsSdkAppId(account.getSmsSdkAppId());
         req.setSignName(account.getSignName());
         req.setTemplateId(account.getTemplateId());
-        String[] templateParamSet1 = smsParam.getContent().split(",");
-        req.setTemplateParamSet(templateParamSet1);
+        String[] templateParamSet = smsParam.getContent().split(",");
+        req.setTemplateParamSet(templateParamSet);
         req.setSessionContext(IdUtil.fastSimpleUUID());
         return req;
     }
@@ -129,8 +133,7 @@ public class TencentSmsScript extends BaseSmsScript implements SmsScript {
         httpProfile.setEndpoint(account.getUrl());
         ClientProfile clientProfile = new ClientProfile();
         clientProfile.setHttpProfile(httpProfile);
-        SmsClient client = new SmsClient(cred, account.getRegion(), clientProfile);
-        return client;
+        return new SmsClient(cred, account.getRegion(), clientProfile);
     }
 
 }

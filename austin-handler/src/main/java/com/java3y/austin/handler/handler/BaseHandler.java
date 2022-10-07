@@ -10,14 +10,20 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
- * @author 3y
  * 发送各个渠道的handler
+ * @description:
+ * @author zhaolifeng
+ * @date 2022/10/7 22:47
+ * @version 1.0
  */
 public abstract class BaseHandler implements Handler {
+
     @Autowired
     private HandlerHolder handlerHolder;
+
     @Autowired
     private LogUtils logUtils;
+
     @Autowired
     private FlowControlFactory flowControlFactory;
 

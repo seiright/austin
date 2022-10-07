@@ -18,9 +18,11 @@ import org.springframework.stereotype.Component;
 import java.util.Date;
 
 /**
- * xxlJob工具类
- *
- * @author 3y
+ * xxl-Job工具类
+ * @description:
+ * @author zhaolifeng
+ * @date 2022/10/7 20:38
+ * @version 1.0
  */
 @Component
 public class XxlJobUtils {
@@ -35,10 +37,9 @@ public class XxlJobUtils {
     private CronTaskService cronTaskService;
 
     /**
-     * 构建xxlJobInfo信息
-     *
-     * @param messageTemplate
-     * @return
+     * 构建xxl-JobInfo信息
+     * @param messageTemplate 消息模板
+     * @return xxl-JobInfo信息
      */
     public XxlJobInfo buildXxlJobInfo(MessageTemplate messageTemplate) {
 
@@ -77,6 +78,7 @@ public class XxlJobUtils {
      * 根据就配置文件的内容获取jobGroupId，没有则创建
      * @return jobGroupId
      */
+    @SuppressWarnings("rawtypes")
     private Integer queryJobGroupId() {
         BasicResultVO basicResultVO = cronTaskService.getGroupId(appName, jobHandlerName);
         if (basicResultVO.getData() == null) {

@@ -66,4 +66,5 @@ public class LogUtils extends CustomLogListener {
         print(anchorInfo);
         print(logParam);
     }
+
 }

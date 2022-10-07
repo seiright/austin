@@ -7,7 +7,10 @@ import lombok.experimental.Accessors;
 
 /**
  * 发送接口返回值
- * @author 3y
+ * @description:
+ * @author zhaolifeng
+ * @date 2022/10/7 21:30
+ * @version 1.0
  */
 @Data
 @Accessors(chain = true)

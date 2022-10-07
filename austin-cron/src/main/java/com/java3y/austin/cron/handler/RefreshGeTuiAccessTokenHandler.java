@@ -22,10 +22,11 @@ import org.springframework.stereotype.Service;
 
 /**
  * 刷新个推的token
- * <p>
- * https://docs.getui.com/getui/server/rest_v2/token/
- *
- * @author 3y
+ * <p><a href="https://docs.getui.com/getui/server/rest_v2/token/">个推API帮助文档</a>
+ * @description: TODO 待完善
+ * @author zhaolifeng
+ * @date 2022/10/7 19:58
+ * @version 1.0
  */
 @Service
 @Slf4j

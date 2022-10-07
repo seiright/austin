@@ -15,9 +15,11 @@ import org.springframework.stereotype.Service;
 import java.util.Collections;
 
 /**
- * 发送接口
- *
- * @author 3y
+ * 发送接口实现类
+ * @description:
+ * @author zhaolifeng
+ * @date 2022/10/7 16:05
+ * @version 1.0
  */
 @Service
 public class SendServiceImpl implements SendService {

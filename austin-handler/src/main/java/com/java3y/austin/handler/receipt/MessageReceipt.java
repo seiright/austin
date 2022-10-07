@@ -43,13 +43,13 @@ public class MessageReceipt {
     private void init() {
         SupportThreadPoolConfig.getPendingSingleThreadPool().execute(() -> {
             while (true) {
-
-                // TODO 回执这里自行打开(免得报错)
+                // FIXME 怎么优化拉取功能
                 tencentSmsReceipt.pull();
                 yunPianSmsReceipt.pull();
                 try {
                     Thread.sleep(200);
-                } catch (InterruptedException e) {
+                } catch (InterruptedException ignored) {
+
                 }
             }
         });

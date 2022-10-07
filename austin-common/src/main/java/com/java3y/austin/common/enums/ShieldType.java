@@ -6,8 +6,10 @@ import lombok.ToString;
 
 /**
  * 屏蔽类型
- *
- * @author 3y
+ * @description:
+ * @author zhaolifeng
+ * @date 2022/10/7 21:59
+ * @version 1.0
  */
 @Getter
 @ToString

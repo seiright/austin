@@ -20,10 +20,11 @@ import org.springframework.stereotype.Service;
 
 /**
  * 刷新钉钉的access_token
- * <p>
- * https://open.dingtalk.com/document/orgapp-server/obtain-orgapp-token
- *
- * @author 3y
+ * <p><a href= "https://open.dingtalk.com/document/orgapp-server/obtain-orgapp-token">钉钉API帮助文档</a>
+ * @description: TODO 待完善
+ * @author zhaolifeng
+ * @date 2022/10/7 19:57
+ * @version 1.0
  */
 @Service
 @Slf4j

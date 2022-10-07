@@ -3,8 +3,10 @@ package com.java3y.austin.cron.xxl.constants;
 
 /**
  * xxl-job常量信息
- *
- * @author 3y
+ * @description:
+ * @author zhaolifeng
+ * @date 2022/10/7 20:01
+ * @version 1.0
  */
 public class XxlJobConstant {
 

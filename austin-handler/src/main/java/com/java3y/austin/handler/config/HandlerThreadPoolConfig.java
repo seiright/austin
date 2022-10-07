@@ -10,18 +10,21 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * handler模块 线程池的配置
- *
- * @author 3y
+ * @description:
+ * @author zhaolifeng
+ * @date 2022/10/7 21:43
+ * @version 1.0
  */
 public class HandlerThreadPoolConfig {
 
     private static final String PRE_FIX = "austin.";
+
     /**
      * 业务：处理某个渠道的某种类型消息的线程池
-     * 配置：不丢弃消息，核心线程数不会随着keepAliveTime而减少(不会被回收)
-     * 动态线程池且被Spring管理：true
-     *
-     * @return
+     * <p>配置：不丢弃消息，核心线程数不会随着keepAliveTime而减少(不会被回收)
+     * <p>动态线程池且被Spring管理：true
+     * @param groupId groupId. eg:sms/push/email
+     * @return 动态线程池执行器
      */
     public static DtpExecutor getExecutor(String groupId) {
         return ThreadPoolBuilder.newBuilder()

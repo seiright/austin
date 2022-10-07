@@ -9,7 +9,10 @@ import lombok.experimental.Accessors;
 
 /**
  * 发送/撤回接口的参数
- * @author 3y
+ * @description:
+ * @author zhaolifeng
+ * @date 2022/10/7 16:04
+ * @version 1.0
  */
 @Data
 @Accessors(chain = true)
@@ -20,8 +23,7 @@ public class SendRequest {
 
     /**
      * 执行业务类型
-     * send:发送消息
-     * recall:撤回消息
+     * <ul><li>send:发送消息 <li>recall:撤回消息</ul>
      */
     private String code;
 

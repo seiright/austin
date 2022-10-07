@@ -8,15 +8,18 @@ import java.util.List;
 
 /**
  * 消费消息服务
- *
- * @author 3y
+ * <p>从MQ拉取消息进行消费。发送/撤回消息
+ * @description:
+ * @author zhaolifeng
+ * @date 2022/10/7 22:27
+ * @version 1.0
  */
 public interface ConsumeService {
 
     /**
      * 从MQ拉到消息进行消费，发送消息
      *
-     * @param taskInfoLists
+     * @param taskInfoLists 任务信息列表
      */
     void consume2Send(List<TaskInfo> taskInfoLists);
 
@@ -24,7 +27,7 @@ public interface ConsumeService {
     /**
      * 从MQ拉到消息进行消费，撤回消息
      *
-     * @param messageTemplate
+     * @param messageTemplate 短信模板
      */
     void consume2recall(MessageTemplate messageTemplate);
 

@@ -22,9 +22,10 @@ import java.util.Optional;
 
 /**
  * 启动消费者
- *
- * @author 3y
- * @date 2021/12/4
+ * @description:
+ * @author zhaolifeng
+ * @date 2022/10/7 19:28
+ * @version 1.0
  */
 @Service
 @ConditionalOnProperty(name = "austin.mq.pipeline", havingValue = MessageQueuePipeline.KAFKA)
@@ -33,7 +34,9 @@ public class ReceiverStart {
 
     @Autowired
     private ApplicationContext context;
+
     @Autowired
+    @SuppressWarnings("rawtypes")
     private ConsumerFactory consumerFactory;
 
     /**
@@ -44,7 +47,7 @@ public class ReceiverStart {
     /**
      * 获取得到所有的groupId
      */
-    private static List<String> groupIds = GroupIdMappingUtils.getAllGroupIds();
+    private static final List<String> groupIds = GroupIdMappingUtils.getAllGroupIds();
 
     /**
      * 下标(用于迭代groupIds位置)
@@ -83,6 +86,7 @@ public class ReceiverStart {
      * @return
      */
     @Bean
+    @SuppressWarnings({"rawtypes","unchecked"})
     public ConcurrentKafkaListenerContainerFactory filterContainerFactory(@Value("${austin.business.tagId.key}") String tagIdKey,
                                                                           @Value("${austin.business.tagId.value}") String tagIdValue) {
         ConcurrentKafkaListenerContainerFactory factory = new ConcurrentKafkaListenerContainerFactory();

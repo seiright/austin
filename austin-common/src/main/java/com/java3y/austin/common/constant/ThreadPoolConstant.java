@@ -3,11 +3,14 @@ package com.java3y.austin.common.constant;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+
 /**
  * 线程池常见的常量信息
- * （仅供初始化的使用，代码里的线程池配置有可能被apollo动态修改)
- *
- * @author 3y
+ * <p>（仅供初始化的使用，代码里的线程池配置有可能被apollo动态修改)
+ * @description:
+ * @author zhaolifeng
+ * @date 2022/10/7 13:58
+ * @version 1.0
  */
 public class ThreadPoolConstant {
 

@@ -12,8 +12,12 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @author 3y
- * 动态线程池配置。实际的具体配置以apollo的为准！实际的具体配置以apollo的为准！实际的具体配置以apollo的为准
+ * 动态线程池配置。
+ * <p>实际的具体配置以apollo的为准！
+ * @description:
+ * @author zhaolifeng
+ * @date 2022/10/7 13:54
+ * @version 1.0
  */
 public class CronAsyncThreadPoolConfig {
 
@@ -25,10 +29,11 @@ public class CronAsyncThreadPoolConfig {
 
     /**
      * 业务：消费pending队列实际的线程池
-     * 配置：核心线程可以被回收，当线程池无被引用且无核心线程数，应当被回收
-     * 动态线程池且被Spring管理：false
-     * @return
+     * <p>配置：核心线程可以被回收，当线程池无被引用且无核心线程数，应当被回收
+     * <p>动态线程池且被Spring管理：false
+     * @return 线程执行服务
      */
+    @SuppressWarnings("unchecked")
     public static ExecutorService getConsumePendingThreadPool() {
         return ExecutorBuilder.create()
                 .setCorePoolSize(ThreadPoolConstant.COMMON_CORE_POOL_SIZE)
@@ -43,10 +48,10 @@ public class CronAsyncThreadPoolConfig {
 
     /**
      * 业务：接收到xxl-job请求的线程池
-     * 配置：不丢弃消息，核心线程数不会随着keepAliveTime而减少(不会被回收)
-     * 动态线程池且被Spring管理：true
+     * <p>配置：不丢弃消息，核心线程数不会随着keepAliveTime而减少(不会被回收)
+     * <p>动态线程池且被Spring管理：true
      *
-     * @return
+     * @return 动态线程执行服务
      */
     public static DtpExecutor getXxlCronExecutor() {
         return ThreadPoolBuilder.newBuilder()

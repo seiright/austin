@@ -6,8 +6,12 @@ import com.java3y.austin.common.vo.BasicResultVO;
 
 /**
  * 定时任务服务
- * @author 3y
+ * @description:
+ * @author zhaolifeng
+ * @date 2022/10/7 20:12
+ * @version 1.0
  */
+@SuppressWarnings("rawtypes")
 public interface CronTaskService {
 
 

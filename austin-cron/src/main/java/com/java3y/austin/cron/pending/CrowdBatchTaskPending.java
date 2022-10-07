@@ -4,11 +4,13 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.StrUtil;
 import com.google.common.collect.Lists;
+import com.java3y.austin.common.enums.RespStatusEnum;
 import com.java3y.austin.cron.config.CronAsyncThreadPoolConfig;
 import com.java3y.austin.cron.constants.PendingConstant;
 import com.java3y.austin.cron.vo.CrowdInfoVo;
 import com.java3y.austin.service.api.domain.BatchSendRequest;
 import com.java3y.austin.service.api.domain.MessageParam;
+import com.java3y.austin.service.api.domain.SendResponse;
 import com.java3y.austin.service.api.enums.BusinessCode;
 import com.java3y.austin.service.api.service.SendService;
 import com.java3y.austin.support.pending.AbstractLazyPending;
@@ -24,11 +26,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.LinkedBlockingQueue;
 
+
 /**
  * 延迟批量处理人群信息
- * 调用 batch 发送接口 进行消息推送
- *
- * @author 3y
+ * <p>调用 batch 发送接口 进行消息推送
+ * @description:
+ * @author zhaolifeng
+ * @date 2022/10/7 13:53
+ * @version 1.0
  */
 @Slf4j
 @Component
@@ -38,6 +43,7 @@ public class CrowdBatchTaskPending extends AbstractLazyPending<CrowdInfoVo> {
     @Autowired
     private SendService sendService;
 
+    @SuppressWarnings({"rawtypes","unchecked"})
     public CrowdBatchTaskPending() {
         PendingParam<CrowdInfoVo> pendingParam = new PendingParam<>();
         pendingParam.setNumThreshold(PendingConstant.NUM_THRESHOLD)
@@ -77,7 +83,12 @@ public class CrowdBatchTaskPending extends AbstractLazyPending<CrowdInfoVo> {
                 .messageParamList(messageParams)
                 .messageTemplateId(CollUtil.getFirst(crowdInfoVos.iterator()).getMessageTemplateId())
                 .build();
-        sendService.batchSend(batchSendRequest);
+        SendResponse sendResponse = sendService.batchSend(batchSendRequest);
+        if (sendResponse.getCode().equals(RespStatusEnum.SUCCESS.getCode())){
+            log.info("CrowdBatchTaskPending#doHandle batch消息推送结果：{}", sendResponse.getMsg());
+        }else {
+            log.error("CrowdBatchTaskPending#doHandle batch消息推送结果：{}", sendResponse.getMsg());
+        }
     }
 
 }

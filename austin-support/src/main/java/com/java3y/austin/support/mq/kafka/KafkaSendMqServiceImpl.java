@@ -20,7 +20,7 @@ import java.util.List;
 
 /**
  * kafka 发送实现类
- * @description: TODO
+ * @description:
  * @author zhaolifeng
  * @date 2022/10/6 21:10
  * @version 1.0

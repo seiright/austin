@@ -1,5 +1,6 @@
 package com.java3y.austin.cron.xxl.entity;
 
+import com.xxl.job.core.glue.GlueTypeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,7 +13,10 @@ import java.util.Date;
 
 /**
  * xxl 任务信息 配置
- * @author 3y
+ * @description:
+ * @author zhaolifeng
+ * @date 2022/10/7 20:01
+ * @version 1.0
  */
 @Data
 @Accessors(chain = true)
@@ -87,7 +91,7 @@ public class XxlJobInfo implements Serializable {
     private int executorFailRetryCount;
 
     /**
-     * GLUE类型	#com.xxl.job.core.glue.GlueTypeEnum
+     * GLUE类型	{@link GlueTypeEnum}
      */
     private String glueType;
     /**

@@ -5,8 +5,11 @@ import lombok.Getter;
 import lombok.ToString;
 
 /**
- * @author 3y
- * @date 2021/11/22
+ * 业务代码模型
+ * @description:
+ * @author zhaolifeng
+ * @date 2022/10/7 21:30
+ * @version 1.0
  */
 @Getter
 @ToString

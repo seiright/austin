@@ -1,9 +1,11 @@
 package com.java3y.austin.cron.constants;
 
 /**
- * @author 3y
- * @date 2022/2/13
  * 延迟缓冲 pending 常量信息
+ * @description:
+ * @author zhaolifeng
+ * @date 2022/10/7 19:46
+ * @version 1.0
  */
 public class PendingConstant {
 

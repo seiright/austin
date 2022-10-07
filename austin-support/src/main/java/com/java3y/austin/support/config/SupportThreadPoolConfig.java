@@ -18,6 +18,7 @@ public class SupportThreadPoolConfig {
      * <p>配置：核心线程可以被回收，当线程池无被引用且无核心线程数，应当被回收
      * <p>动态线程池且被Spring管理：false
      */
+    @SuppressWarnings("unchecked")
     public static ExecutorService getPendingSingleThreadPool() {
         return ExecutorBuilder.create()
                 .setCorePoolSize(ThreadPoolConstant.SINGLE_CORE_POOL_SIZE)

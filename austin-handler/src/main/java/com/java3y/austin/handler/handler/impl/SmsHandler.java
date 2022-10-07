@@ -4,8 +4,6 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
-import com.ctrip.framework.apollo.Config;
-import com.ctrip.framework.apollo.spring.annotation.ApolloConfig;
 import com.google.common.base.Throwables;
 import com.java3y.austin.common.constant.AustinConstant;
 import com.java3y.austin.common.domain.TaskInfo;
@@ -26,12 +24,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 /**
  * 短信发送处理
- *
- * @author 3y
+ * @description:
+ * @author zhaolifeng
+ * @date 2022/10/7 22:14
+ * @version 1.0
  */
 @Component
 @Slf4j
@@ -54,6 +55,17 @@ public class SmsHandler extends BaseHandler implements Handler {
     private MessageTemplateDao messageTemplateDao;
 
 
+    /**
+     * 短信处理服务
+     * <ol>
+     *     <li>动态配置做流量负载</li>
+     *     <li>发送短信</li>
+     * </ol>
+     * @param taskInfo 任务信息
+     * @return 是否处理成功
+     * @author zhaolifeng
+     * @date 2022/10/7 22:14
+     */
     @Override
     public boolean handler(TaskInfo taskInfo) {
         SmsParam smsParam = SmsParam.builder()
@@ -63,11 +75,8 @@ public class SmsHandler extends BaseHandler implements Handler {
                 .templateName(messageTemplateDao.getMessageTemplateById(taskInfo.getMessageTemplateId()).getTemplateName())
                 .build();
         try {
-            /**
-             * 1、动态配置做流量负载
-             * 2、发送短信
-             */
-            MessageTypeSmsConfig[] messageTypeSmsConfigs = loadBalance(getMessageTypeSmsConfig(taskInfo.getMsgType()));
+            MessageTypeSmsConfig[] messageTypeSmsConfigs = loadBalance(Objects.requireNonNull(getMessageTypeSmsConfig(taskInfo.getMsgType())));
+            assert messageTypeSmsConfigs != null;
             for (MessageTypeSmsConfig messageTypeSmsConfig : messageTypeSmsConfigs) {
                 List<SmsRecord> recordList = smsScriptHolder.route(messageTypeSmsConfig.getScriptName()).send(smsParam);
                 if (CollUtil.isNotEmpty(recordList)) {
@@ -123,16 +132,17 @@ public class SmsHandler extends BaseHandler implements Handler {
 
     /**
      * 每种类型都会有其下发渠道账号的配置(流量占比也会配置里面)
-     * <p>
-     * 样例：
-     * key：msgTypeSmsConfig
-     * value：[{"message_type_10":[{"weights":80,"scriptName":"TencentSmsScript"},{"weights":20,"scriptName":"YunPianSmsScript"}]},{"message_type_20":[{"weights":20,"scriptName":"YunPianSmsScript"}]},{"message_type_30":[{"weights":20,"scriptName":"TencentSmsScript"}]},{"message_type_40":[{"weights":20,"scriptName":"TencentSmsScript"}]}]
-     * 通知类短信有两个发送渠道 TencentSmsScript 占80%流量，YunPianSmsScript占20%流量
-     * 营销类短信只有一个发送渠道 YunPianSmsScript
-     * 验证码短信只有一个发送渠道 TencentSmsScript
      *
+     * <p>样例：
+     * <p>key：msgTypeSmsConfig
+     * <p>value：[{"message_type_10":[{"weights":80,"scriptName":"TencentSmsScript"},{"weights":20,"scriptName":"YunPianSmsScript"}]},{"message_type_20":[{"weights":20,"scriptName":"YunPianSmsScript"}]},{"message_type_30":[{"weights":20,"scriptName":"TencentSmsScript"}]},{"message_type_40":[{"weights":20,"scriptName":"TencentSmsScript"}]}]
+     * <ul>
+     *     <li>通知类短信有两个发送渠道 TencentSmsScript 占80%流量，YunPianSmsScript占20%流量</li>
+     *     <li>营销类短信只有一个发送渠道 YunPianSmsScript</li>
+     *     <li>验证码短信只有一个发送渠道 TencentSmsScript</li>
+     * </ul>
      * @param msgType-消息类型
-     * @return-渠道账号配置
+     * @return 渠道账号配置
      */
     private List<MessageTypeSmsConfig> getMessageTypeSmsConfig(Integer msgType) {
 
@@ -144,8 +154,7 @@ public class SmsHandler extends BaseHandler implements Handler {
         for (int i = 0; i < jsonArray.size(); i++) {
             JSONArray array = jsonArray.getJSONObject(i).getJSONArray(messagePrefix + msgType);
             if (CollUtil.isNotEmpty(array)) {
-                List<MessageTypeSmsConfig> result = JSON.parseArray(JSON.toJSONString(array), MessageTypeSmsConfig.class);
-                return result;
+                return JSON.parseArray(JSON.toJSONString(array), MessageTypeSmsConfig.class);
             }
         }
         return null;
@@ -166,6 +175,12 @@ public class SmsHandler extends BaseHandler implements Handler {
         }
     }
 
+    /**
+     * TODO 待完善召回功能
+     * @param messageTemplate 消息模板
+     * @author zhaolifeng
+     * @date 2022/10/7 22:17
+     */
     @Override
     public void recall(MessageTemplate messageTemplate) {
 

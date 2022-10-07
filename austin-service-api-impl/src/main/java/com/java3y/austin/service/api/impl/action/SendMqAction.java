@@ -17,8 +17,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 /**
- * @author 3y
  * 将消息发送到MQ
+ * @description:
+ * @author zhaolifeng
+ * @date 2022/10/7 21:38
+ * @version 1.0
  */
 @Slf4j
 @Service
@@ -51,6 +54,7 @@ public class SendMqAction implements BusinessProcess<SendTaskModel> {
                 String message = JSON.toJSONString(sendTaskModel.getMessageTemplate(), SerializerFeature.WriteClassName);
                 sendMqService.send(austinRecall, message, tagId);
             }
+            context.setResponse(BasicResultVO.success());
         } catch (Exception e) {
             context.setNeedBreak(true).setResponse(BasicResultVO.fail(RespStatusEnum.SERVICE_ERROR));
             log.error("send {} fail! e:{},params:{}", mqPipeline, Throwables.getStackTraceAsString(e)

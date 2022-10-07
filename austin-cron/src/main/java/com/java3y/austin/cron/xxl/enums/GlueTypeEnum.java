@@ -2,7 +2,10 @@ package com.java3y.austin.cron.xxl.enums;
 
 /**
  * GlueTyp 类型（默认BEAN)
- * @author 3y
+ * @description:
+ * @author zhaolifeng
+ * @date 2022/10/7 20:08
+ * @version 1.0
  */
 public enum GlueTypeEnum {
 

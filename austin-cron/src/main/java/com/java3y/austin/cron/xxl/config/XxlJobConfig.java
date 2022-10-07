@@ -8,8 +8,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * @author 3y
- * 配置类
+ * xxl-job配置类
+ * @description:
+ * @author zhaolifeng
+ * @date 2022/10/7 19:59
+ * @version 1.0
  */
 @Slf4j
 @Configuration

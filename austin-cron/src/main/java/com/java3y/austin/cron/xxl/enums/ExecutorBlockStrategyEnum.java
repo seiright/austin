@@ -2,7 +2,10 @@ package com.java3y.austin.cron.xxl.enums;
 
 /**
  * 执行阻塞队列
- * @author 3y
+ * @description:
+ * @author zhaolifeng
+ * @date 2022/10/7 20:07
+ * @version 1.0
  */
 public enum ExecutorBlockStrategyEnum {
     /**

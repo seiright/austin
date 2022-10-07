@@ -3,7 +3,7 @@ package com.java3y.austin.common.constant;
 /**
  * @author zhaolifeng
  * @version 1.0
- * @description: TODO
+ * @description:
  * @date 2022/10/5 17:07
  */
 public class MessageConfigConstant {

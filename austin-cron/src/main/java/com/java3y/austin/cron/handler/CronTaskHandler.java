@@ -13,7 +13,10 @@ import org.springframework.stereotype.Service;
 
 /**
  * 后台提交的定时任务处理类
- * @author 3y
+ * @description:
+ * @author zhaolifeng
+ * @date 2022/10/7 14:02
+ * @version 1.0
  */
 @Service
 @Slf4j
@@ -24,12 +27,14 @@ public class CronTaskHandler {
 
     @Autowired
     private ThreadPoolUtils threadPoolUtils;
-    private DtpExecutor dtpExecutor = CronAsyncThreadPoolConfig.getXxlCronExecutor();
+
+    private final DtpExecutor dtpExecutor = CronAsyncThreadPoolConfig.getXxlCronExecutor();
 
     /**
      * 处理后台的 austin 定时任务消息
      */
     @XxlJob("austinJob")
+    @SuppressWarnings("unused")
     public void execute() {
         log.info("CronTaskHandler#execute messageTemplateId:{} cron exec!", XxlJobHelper.getJobParam());
         threadPoolUtils.register(dtpExecutor);

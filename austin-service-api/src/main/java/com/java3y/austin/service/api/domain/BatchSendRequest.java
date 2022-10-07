@@ -1,5 +1,6 @@
 package com.java3y.austin.service.api.domain;
 
+import com.java3y.austin.service.api.enums.BusinessCode;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,10 +10,11 @@ import lombok.experimental.Accessors;
 import java.util.List;
 
 /**
- * 发送接口的参数
- * batch
- *
- * @author 3y
+ * 发送接口的参数 batch
+ * @description:
+ * @author zhaolifeng
+ * @date 2022/10/7 21:28
+ * @version 1.0
  */
 @Data
 @Accessors(chain = true)
@@ -24,7 +26,7 @@ public class BatchSendRequest {
 
     /**
      * 执行业务类型
-     * 必传,参考 BusinessCode枚举
+     * <p>必传,参考{@link BusinessCode}枚举
      */
     private String code;
 

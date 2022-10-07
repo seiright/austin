@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
  * 短信通用类
  * @author zhaolifeng
  * @version 1.0
- * @description: TODO
+ * @description:
  * @date 2022/10/5 17:02
  */
 @Component

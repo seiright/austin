@@ -8,13 +8,15 @@ import java.util.Map;
 
 /**
  * sendAccount->SmsScript的映射关系
- *
- * @author 3y
+ * @description:
+ * @author zhaolifeng
+ * @date 2022/10/7 22:26
+ * @version 1.0
  */
 @Component
 public class SmsScriptHolder {
 
-    private Map<String, SmsScript> handlers = new HashMap<>(8);
+    private final Map<String, SmsScript> handlers = new HashMap<>(8);
 
     /**
      * 绑定渠道商业务bean

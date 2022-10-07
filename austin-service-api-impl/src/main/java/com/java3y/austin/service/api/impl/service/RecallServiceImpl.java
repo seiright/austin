@@ -13,7 +13,10 @@ import org.springframework.stereotype.Service;
 
 /**
  * 撤回接口
- * @author 3y
+ * @description:
+ * @author zhaolifeng
+ * @date 2022/10/7 21:39
+ * @version 1.0
  */
 @Service
 public class RecallServiceImpl implements RecallService {
@@ -22,6 +25,7 @@ public class RecallServiceImpl implements RecallService {
     private ProcessController processController;
 
     @Override
+    @SuppressWarnings("rawtypes")
     public SendResponse recall(SendRequest sendRequest) {
         SendTaskModel sendTaskModel = SendTaskModel.builder()
                 .messageTemplateId(sendRequest.getMessageTemplateId())

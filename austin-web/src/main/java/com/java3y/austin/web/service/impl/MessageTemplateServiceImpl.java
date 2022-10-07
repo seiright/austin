@@ -21,6 +21,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * 消息模板管理 Service
@@ -29,6 +30,7 @@ import java.util.List;
  * @date 2022/1/22
  */
 @Service
+@SuppressWarnings("rawtypes")
 public class MessageTemplateServiceImpl implements MessageTemplateService {
 
 
@@ -111,7 +113,10 @@ public class MessageTemplateServiceImpl implements MessageTemplateService {
 
         // 4. 启动定时任务
         if (taskId != null) {
-            cronTaskService.startCronTask(taskId);
+            basicResultVO = cronTaskService.startCronTask(taskId);
+            if (!RespStatusEnum.SUCCESS.getCode().equals(basicResultVO.getStatus())){
+                return basicResultVO;
+            }
             MessageTemplate clone = ObjectUtil.clone(messageTemplate).setMsgStatus(MessageStatus.RUN.getCode()).setCronTaskId(taskId).setUpdated(Math.toIntExact(DateUtil.currentSeconds()));
             messageTemplateDao.save(clone);
             return BasicResultVO.success();
@@ -122,8 +127,11 @@ public class MessageTemplateServiceImpl implements MessageTemplateService {
     @Override
     public BasicResultVO stopCronTask(Long id) {
         // 1.修改模板状态
-        MessageTemplate messageTemplate = messageTemplateDao.findById(id).get();
-        // TODO 为什么要克隆一个再修改
+        Optional<MessageTemplate> templateOptional = messageTemplateDao.findById(id);
+        if (!templateOptional.isPresent()){
+            return BasicResultVO.fail(RespStatusEnum.SERVICE_ERROR);
+        }
+        MessageTemplate messageTemplate = templateOptional.get();
         MessageTemplate clone = ObjectUtil.clone(messageTemplate).setMsgStatus(MessageStatus.STOP.getCode()).setUpdated(Math.toIntExact(DateUtil.currentSeconds()));
         messageTemplateDao.save(clone);
 

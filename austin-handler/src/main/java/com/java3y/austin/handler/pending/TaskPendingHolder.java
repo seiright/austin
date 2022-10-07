@@ -16,31 +16,30 @@ import java.util.concurrent.ExecutorService;
 
 /**
  * 存储 每种消息类型 与 TaskPending 的关系
- *
- * @author 3y
+ * @description:
+ * @author zhaolifeng
+ * @date 2022/10/7 21:44
+ * @version 1.0
  */
 @Component
 public class TaskPendingHolder {
     @Autowired
     private ThreadPoolUtils threadPoolUtils;
 
-    private Map<String, ExecutorService> taskPendingHolder = new HashMap<>(32);
+    private final Map<String, ExecutorService> taskPendingHolder = new HashMap<>(32);
 
     /**
      * 获取得到所有的groupId
      */
-    private static List<String> groupIds = GroupIdMappingUtils.getAllGroupIds();
+    private static final List<String> groupIds = GroupIdMappingUtils.getAllGroupIds();
 
     /**
      * 给每个渠道，每种消息类型初始化一个线程池
+     * <p>example ThreadPoolName:austin.im.notice
+     * <p>可以通过apollo配置：dynamic-tp-apollo-dtp.yml  动态修改线程池的信息
      */
     @PostConstruct
     public void init() {
-        /**
-         * example ThreadPoolName:austin.im.notice
-         *
-         * 可以通过apollo配置：dynamic-tp-apollo-dtp.yml  动态修改线程池的信息
-         */
         for (String groupId : groupIds) {
             DtpExecutor executor = HandlerThreadPoolConfig.getExecutor(groupId);
             threadPoolUtils.register(executor);

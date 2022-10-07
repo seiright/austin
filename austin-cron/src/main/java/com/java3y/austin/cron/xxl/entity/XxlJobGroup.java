@@ -13,8 +13,10 @@ import java.util.List;
 
 /**
  * 执行器组信息
- *
- * @author 3y
+ * @description:
+ * @author zhaolifeng
+ * @date 2022/10/7 20:03
+ * @version 1.0
  */
 @Data
 @Accessors(chain = true)
@@ -43,9 +45,10 @@ public class XxlJobGroup {
      */
     private List<String> registryList;
 
+    @SuppressWarnings("unused")
     public List<String> getRegistryList() {
         if (addressList != null && addressList.trim().length() > 0) {
-            registryList = new ArrayList<String>(Arrays.asList(addressList.split(",")));
+            registryList = new ArrayList<>(Arrays.asList(addressList.split(",")));
         }
         return registryList;
     }

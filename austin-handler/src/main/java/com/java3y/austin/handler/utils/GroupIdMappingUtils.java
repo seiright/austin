@@ -9,9 +9,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * groupId 标识着每一个消费者组
- *
- * @author 3y
+ * groupId映射工具类
+ * <p>groupId 标识着每一个消费者组
+ * @description:
+ * @author zhaolifeng
+ * @date 2022/10/7 21:55
+ * @version 1.0
  */
 public class GroupIdMappingUtils {
 
@@ -32,12 +35,13 @@ public class GroupIdMappingUtils {
 
     /**
      * 根据TaskInfo获取当前消息的groupId
-     * @param taskInfo
-     * @return
+     * @param taskInfo 任务信息
+     * @return groupId
      */
     public static String getGroupIdByTaskInfo(TaskInfo taskInfo) {
-        String channelCodeEn = ChannelType.getEnumByCode(taskInfo.getSendChannel()).getCodeEn();
-        String msgCodeEn = MessageType.getEnumByCode(taskInfo.getMsgType()).getCodeEn();
-        return channelCodeEn + "." + msgCodeEn;
+        ChannelType channelType = ChannelType.getEnumByCode(taskInfo.getSendChannel());
+        MessageType messageType = MessageType.getEnumByCode(taskInfo.getMsgType());
+        if (channelType==null||messageType==null) return "";
+        return channelType.getCodeEn() + "." + messageType.getCodeEn();
     }
 }

@@ -4,10 +4,13 @@ import cn.hutool.core.text.csv.CsvRow;
 import cn.hutool.core.text.csv.CsvRowHandler;
 import lombok.Data;
 
+
 /**
- * @author 3y
- * @date 2022/3/10
- * 统计当前文件有多少行
+ * 用于统计当前文件有多少行
+ * @description:
+ * @author zhaolifeng
+ * @date 2022/10/7 14:14
+ * @version 1.0
  */
 @Data
 public class CountFileRowHandler implements CsvRowHandler {
@@ -19,7 +22,4 @@ public class CountFileRowHandler implements CsvRowHandler {
         rowSize++;
     }
 
-    public long getRowSize() {
-        return rowSize;
-    }
 }

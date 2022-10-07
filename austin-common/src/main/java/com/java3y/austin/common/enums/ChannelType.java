@@ -68,8 +68,8 @@ public enum ChannelType {
 
     /**
      * 通过code获取enum
-     * @param code
-     * @return
+     * @param code code
+     * @return 通道类型
      */
     public static ChannelType getEnumByCode(Integer code) {
         ChannelType[] values = values();

@@ -10,8 +10,10 @@ import java.lang.annotation.Target;
 
 /**
  * 标识 短信渠道
- *
- * @author 3y
+ * @description:
+ * @author zhaolifeng
+ * @date 2022/10/7 22:25
+ * @version 1.0
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE})

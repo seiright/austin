@@ -19,8 +19,12 @@ import java.util.Date;
 import java.util.HashSet;
 
 /**
- * 屏蔽服务
- * @author 3y
+ * 屏蔽服务实现类
+ *
+ * @author zhaolifeng
+ * @version 1.0
+ * @description:
+ * @date 2022/10/7 21:57
  */
 @Service
 @Slf4j
@@ -32,6 +36,14 @@ public class ShieldServiceImpl implements ShieldService {
     @Autowired
     private LogUtils logUtils;
 
+    /**
+     * example:当消息下发至austin平台时，已经是凌晨1点，业务希望此类消息在次日的早上9点推送
+     * <p>(配合分布式任务定时任务框架完成工作)
+     *
+     * @param taskInfo 任务信息
+     * @author zhaolifeng
+     * @date 2022/10/7 21:57
+     */
     @Override
     public void shield(TaskInfo taskInfo) {
 
@@ -39,10 +51,6 @@ public class ShieldServiceImpl implements ShieldService {
             return;
         }
 
-        /**
-         * example:当消息下发至austin平台时，已经是凌晨1点，业务希望此类消息在次日的早上9点推送
-         * (配合 分布式任务定时任务框架搞掂)
-         */
         if (isNight()) {
             if (ShieldType.NIGHT_SHIELD.getCode().equals(taskInfo.getShieldType())) {
                 logUtils.print(AnchorInfo.builder().state(AnchorState.NIGHT_SHIELD.getCode())
@@ -61,11 +69,10 @@ public class ShieldServiceImpl implements ShieldService {
     /**
      * 小时 < 8 默认就认为是凌晨(夜晚)
      *
-     * @return
+     * @return 是否是夜晚
      */
     private boolean isNight() {
-       return LocalDateTime.now().getHour() < 8;
-
+        return LocalDateTime.now().getHour() < 8;
     }
 
 }

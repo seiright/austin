@@ -12,7 +12,7 @@ import javax.persistence.Id;
 
 /**
  * 渠道账号信息
- * @description: TODO
+ * @description:
  * @author zhaolifeng
  * @date 2022/10/6 17:23
  * @version 1.0

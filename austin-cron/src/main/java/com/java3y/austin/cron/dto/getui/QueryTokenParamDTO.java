@@ -14,8 +14,11 @@ import lombok.NoArgsConstructor;
 
 /**
  * 请求token时的参数
- * @author 3y
- * https://docs.getui.com/getui/server/rest_v2/token/
+ * <p><a href="https://docs.getui.com/getui/server/rest_v2/token/">个推帮助文档</a>
+ * @description: TODO 待处理
+ * @author zhaolifeng
+ * @date 2022/10/7 19:50
+ * @version 1.0
  */
 @NoArgsConstructor
 @Data

@@ -23,10 +23,16 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author 3y
+ * 定时任务实现类
+ *
+ * @author zhaolifeng
+ * @version 1.0
+ * @description:
+ * @date 2022/10/7 20:17
  */
 @Slf4j
 @Service
+@SuppressWarnings("rawtypes")
 public class CronTaskServiceImpl implements CronTaskService {
 
     @Value("${xxl.job.admin.username}")
@@ -40,6 +46,7 @@ public class CronTaskServiceImpl implements CronTaskService {
 
 
     @Override
+    @SuppressWarnings({"unchecked"})
     public BasicResultVO saveCronTask(XxlJobInfo xxlJobInfo) {
         Map<String, Object> params = JSON.parseObject(JSON.toJSONString(xxlJobInfo), Map.class);
         String path = xxlJobInfo.getId() == null ? xxlAddresses + XxlJobConstant.INSERT_URL
@@ -150,12 +157,13 @@ public class CronTaskServiceImpl implements CronTaskService {
             }
         } catch (Exception e) {
             log.error("CronTaskService#getGroupId fail,e:{},param:{},response:{}", Throwables.getStackTraceAsString(e)
-                    , JSON.toJSONString(params), JSON.toJSONString(response.body()));
+                    , JSON.toJSONString(params), JSON.toJSONString(response == null ? null : response.body()));
         }
-        return BasicResultVO.fail(RespStatusEnum.SERVICE_ERROR, JSON.toJSONString(response.body()));
+        return BasicResultVO.fail(RespStatusEnum.SERVICE_ERROR, JSON.toJSONString(response == null ? null : response.body()));
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public BasicResultVO createGroup(XxlJobGroup xxlJobGroup) {
         Map<String, Object> params = JSON.parseObject(JSON.toJSONString(xxlJobGroup), Map.class);
         String path = xxlAddresses + XxlJobConstant.JOB_GROUP_INSERT_URL;

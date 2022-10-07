@@ -43,6 +43,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/messageTemplate")
 @Api("发送消息")
+@SuppressWarnings("rawtypes")
 @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true", allowedHeaders = "*") //CrossOrigin表示只在origins域内操作
 public class MessageTemplateController {
 
@@ -83,7 +84,7 @@ public class MessageTemplateController {
     }
 
     /**
-     * 根据Id查找
+     * 根据Id查找 TODO:待处理失败的异常情况
      */
     @GetMapping("query/{id}")
     @ApiOperation("/根据Id查找")
@@ -133,6 +134,7 @@ public class MessageTemplateController {
      */
     @PostMapping("test")
     @ApiOperation("/测试发送接口")
+    @SuppressWarnings("unchecked")
     public BasicResultVO test(@RequestBody MessageTemplateParam messageTemplateParam) {
 
         Map<String, String> variables = JSON.parseObject(messageTemplateParam.getMsgContent(), Map.class);
@@ -186,14 +188,16 @@ public class MessageTemplateController {
     @PostMapping("upload")
     @ApiOperation("/上传人群文件")
     public BasicResultVO upload(@RequestParam("file") MultipartFile file) {
-        String filePath = new StringBuilder(dataPath)
-                .append(IdUtil.fastSimpleUUID())
-                .append(file.getOriginalFilename())
-                .toString();
+        String filePath = dataPath +
+                IdUtil.fastSimpleUUID() +
+                file.getOriginalFilename();
         try {
             File localFile = new File(filePath);
             if (!localFile.exists()) {
-                localFile.mkdirs();
+                boolean flag = localFile.mkdirs();
+                if (!flag){
+                    log.error("MessageTemplateController#upload fail! mkdir无法成功");
+                }
             }
             file.transferTo(localFile);
 

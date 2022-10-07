@@ -7,10 +7,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * @author 3y
- * @date 2022/5/8
- * <p>
- * https://docs.getui.com/getui/server/rest_v2/token/
+ * 完成移动端手机(ios/android)个推帮助
+ * <p><a href="https://docs.getui.com/getui/server/rest_v2/token/">个推帮助文档</a>
+ * @description: TODO 待弄懂
+ * @author zhaolifeng
+ * @date 2022/10/7 19:47
+ * @version 1.0
  */
 @NoArgsConstructor
 @Data
