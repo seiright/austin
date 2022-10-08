@@ -10,9 +10,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 /**
- * @author 3y
- * @date 2021/12/11
- * 内容去重服务（默认5分钟相同的文案发给相同的用户去重）
+ * 内容去重服务（默认5分钟相同的文案发给相同的用户去重）<br>主要用于得到key
+ * @description:
+ * @author zhaolifeng
+ * @date 2022/10/8 22:28
+ * @version 1.0
  */
 @Service
 public class ContentDeduplicationService extends AbstractDeduplicationService {
@@ -31,8 +33,8 @@ public class ContentDeduplicationService extends AbstractDeduplicationService {
      * <p>
      * 相同的内容相同的模板短时间内发给同一个人
      *
-     * @param taskInfo
-     * @return
+     * @param taskInfo 任务信息
+     * @return 去重key
      */
     @Override
     public String deduplicationSingleKey(TaskInfo taskInfo, String receiver) {

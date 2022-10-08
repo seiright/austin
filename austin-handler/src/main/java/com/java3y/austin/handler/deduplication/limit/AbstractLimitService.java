@@ -6,8 +6,11 @@ import com.java3y.austin.handler.deduplication.service.AbstractDeduplicationServ
 import java.util.*;
 
 /**
- * @author cao
- * @date 2022-04-20 12:00
+ * 限流服务的抽象实现类
+ * @description:
+ * @author zhaolifeng
+ * @date 2022/10/8 22:46
+ * @version 1.0
  */
 public abstract class AbstractLimitService implements LimitService {
 
@@ -15,8 +18,8 @@ public abstract class AbstractLimitService implements LimitService {
     /**
      * 获取得到当前消息模板所有的去重Key
      *
-     * @param taskInfo
-     * @return
+     * @param taskInfo 任务信息
+     * @return 去重key
      */
     protected List<String> deduplicationAllKey(AbstractDeduplicationService service, TaskInfo taskInfo) {
         List<String> result = new ArrayList<>(taskInfo.getReceiver().size());

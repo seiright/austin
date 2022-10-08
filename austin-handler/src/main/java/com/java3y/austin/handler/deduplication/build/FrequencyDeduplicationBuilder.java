@@ -10,10 +10,12 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 
 /**
- * @author huskey
- * @date 2022/1/18
+ * 频率去重
+ * @description:
+ * @author zhaolifeng
+ * @date 2022/10/8 14:13
+ * @version 1.0
  */
-
 @Service
 public class FrequencyDeduplicationBuilder extends AbstractDeduplicationBuilder implements Builder {
     public FrequencyDeduplicationBuilder() {

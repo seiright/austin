@@ -6,8 +6,10 @@ import lombok.ToString;
 
 /**
  * 限流枚举
- *
- * @author 3y
+ * @description:
+ * @author zhaolifeng
+ * @date 2022/10/8 13:59
+ * @version 1.0
  */
 @Getter
 @ToString
@@ -19,8 +21,8 @@ public enum RateLimitStrategy {
     SEND_USER_NUM_RATE_LIMIT(20, "根据发送用户数限流"),
     ;
 
-    private Integer code;
-    private String description;
+    private final Integer code;
+    private final String description;
 
 
 }

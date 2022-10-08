@@ -4,8 +4,11 @@ import com.java3y.austin.common.domain.TaskInfo;
 import com.java3y.austin.handler.deduplication.DeduplicationParam;
 
 /**
- * @author luohaojie
- * @date 2022/1/18
+ * 去重构建器：用来构建去重参数 {@link DeduplicationParam}
+ * @description:
+ * @author zhaolifeng
+ * @date 2022/10/8 22:39
+ * @version 1.0
  */
 public interface Builder {
 

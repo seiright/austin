@@ -14,9 +14,11 @@ import javax.annotation.PostConstruct;
 import java.util.*;
 
 /**
- * @author 3y
- * @date 2021/12/9
  * 去重服务
+ * @description:
+ * @author zhaolifeng
+ * @date 2022/10/8 14:41
+ * @version 1.0
  */
 @Slf4j
 public abstract class AbstractDeduplicationService implements DeduplicationService {
@@ -43,7 +45,6 @@ public abstract class AbstractDeduplicationService implements DeduplicationServi
 
         Set<String> filterReceiver = limitService.limitFilter(this, taskInfo, param);
 
-        // 剔除符合去重条件的用户
         if (CollUtil.isNotEmpty(filterReceiver)) {
             taskInfo.getReceiver().removeAll(filterReceiver);
             logUtils.print(AnchorInfo.builder().businessId(taskInfo.getBusinessId()).ids(filterReceiver).state(param.getAnchorState().getCode()).build());
@@ -54,9 +55,9 @@ public abstract class AbstractDeduplicationService implements DeduplicationServi
     /**
      * 构建去重的Key
      *
-     * @param taskInfo
-     * @param receiver
-     * @return
+     * @param taskInfo 任务信息
+     * @param receiver 接收者
+     * @return 去重Key
      */
     public abstract String deduplicationSingleKey(TaskInfo taskInfo, String receiver);
 

@@ -51,8 +51,8 @@ public class TaskPendingHolder {
     /**
      * 得到对应的线程池
      *
-     * @param groupId
-     * @return
+     * @param groupId 业务id
+     * @return 线程池服务
      */
     public ExecutorService route(String groupId) {
         return taskPendingHolder.get(groupId);

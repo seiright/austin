@@ -7,8 +7,11 @@ import com.java3y.austin.handler.deduplication.service.AbstractDeduplicationServ
 import java.util.Set;
 
 /**
- * @author cao
- * @date 2022-04-20 11:58
+ * 限流服务
+ * @description:
+ * @author zhaolifeng
+ * @date 2022/10/8 14:42
+ * @version 1.0
  */
 public interface LimitService {
 
@@ -16,7 +19,7 @@ public interface LimitService {
     /**
      * 去重限制
      * @param service 去重器对象
-     * @param taskInfo
+     * @param taskInfo 任务信息
      * @param param 去重参数
      * @return 返回不符合条件的手机号码
      */

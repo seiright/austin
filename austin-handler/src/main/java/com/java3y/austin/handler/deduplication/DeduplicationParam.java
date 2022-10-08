@@ -9,9 +9,17 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * @author 3y
- * @date 2021/12/11
  * 去重服务所需要的参数
+ * 主要去重参数设置：
+ * <ul>
+ *     <li>{@link DeduplicationParam#deduplicationTime}-去重时间. 可以用来配置内容去重的滑动窗口大小</li>
+ *     <li>{@link DeduplicationParam#countNum}-去重阈值. 可以用来配置内容去重的阈值: 即最大相同次数;
+ *     或者频次去重的频次：即同一模板能像同一用户一天能发送的最大数量</li>
+ * </ul>
+ * @description:
+ * @author zhaolifeng
+ * @date 2022/10/8 14:39
+ * @version 1.0
  */
 @Builder
 @Data

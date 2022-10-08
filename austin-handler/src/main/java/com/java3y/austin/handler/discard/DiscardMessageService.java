@@ -13,7 +13,14 @@ import org.springframework.stereotype.Service;
 
 /**
  * 丢弃模板消息
- * @author 3y.
+ * <p>配置示例</p>
+ * <p>key: {@value DiscardMessageService#DISCARD_MESSAGE_KEY}</p>
+ * <p>value: {@code ["1","2"]}</p>
+ * <p>means: 丢弃模板id为1和2的信息</p>
+ * @description:
+ * @author zhaolifeng
+ * @date 2022/10/8 14:02
+ * @version 1.0
  */
 @Service
 public class DiscardMessageService {
@@ -28,11 +35,10 @@ public class DiscardMessageService {
 
     /**
      * 丢弃消息，配置在apollo
-     * @param taskInfo-消息信息
+     * @param taskInfo 消息信息
      * @return 是否丢弃
      */
     public boolean isDiscard(TaskInfo taskInfo) {
-        // 配置示例:	["1","2"]
         JSONArray array = JSON.parseArray(config.getProperty(DISCARD_MESSAGE_KEY,
                 AustinConstant.APOLLO_DEFAULT_VALUE_JSON_ARRAY));
 

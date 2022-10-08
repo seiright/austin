@@ -8,8 +8,10 @@ import lombok.NoArgsConstructor;
 
 /**
  * 对于每种消息类型的 短信配置
- *
- * @author 3y
+ * @description:
+ * @author zhaolifeng
+ * @date 2022/10/8 13:57
+ * @version 1.0
  */
 @Data
 @Builder

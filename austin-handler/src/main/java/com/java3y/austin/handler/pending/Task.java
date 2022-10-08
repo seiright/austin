@@ -17,12 +17,16 @@ import org.springframework.stereotype.Component;
 
 /**
  * Task 执行器
- * 0.丢弃消息
- * 2.屏蔽消息
- * 2.通用去重功能
- * 3.发送消息
- *
- * @author 3y
+ * <ol>
+ *     <li>丢弃消息</li>
+ *     <li>屏蔽消息</li>
+ *     <li>平台通用去重</li>
+ *     <li>发送消息</li>
+ * </ol>
+ * @description:
+ * @author zhaolifeng
+ * @date 2022/10/8 14:54
+ * @version 1.0
  */
 @Data
 @Accessors(chain = true)
@@ -46,22 +50,29 @@ public class Task implements Runnable {
     private TaskInfo taskInfo;
 
 
+    /**
+     * 任务执行流程：
+     * <ol>
+     *     <li>丢弃消息</li>
+     *     <li>屏蔽消息</li>
+     *     <li>平台通用去重</li>
+     *     <li>发送消息</li>
+     * </ol>
+     * @author zhaolifeng
+     * @date 2022/10/8 14:52
+     */
     @Override
     public void run() {
-
-        // 0. 丢弃消息
         if (discardMessageService.isDiscard(taskInfo)) {
             return;
         }
-        // 1. 屏蔽消息
+
         shieldService.shield(taskInfo);
 
-        // 2.平台通用去重
         if (CollUtil.isNotEmpty(taskInfo.getReceiver())) {
             deduplicationRuleService.duplication(taskInfo);
         }
 
-        // 3. 真正发送消息
         if (CollUtil.isNotEmpty(taskInfo.getReceiver())) {
             handlerHolder.route(taskInfo.getSendChannel()).doHandler(taskInfo);
         }

@@ -10,9 +10,12 @@ import org.springframework.stereotype.Service;
 
 
 /**
- * @author 3y
- * @date 2021/12/12
- * 频次去重服务
+ * 频次去重服务 : 一天内一个用户只能收到某个渠道的消息 N 次<br>主要用于获取key<br>
+ *
+ * @description:
+ * @author zhaolifeng
+ * @date 2022/10/8 15:16
+ * @version 1.0
  */
 @Service
 public class FrequencyDeduplicationService extends AbstractDeduplicationService {
@@ -35,9 +38,9 @@ public class FrequencyDeduplicationService extends AbstractDeduplicationService 
      * <p>
      * 一天内一个用户只能收到某个渠道的消息 N 次
      *
-     * @param taskInfo
-     * @param receiver
-     * @return
+     * @param taskInfo 任务信息
+     * @param receiver 接收者
+     * @return 去重规则key
      */
     @Override
     public String deduplicationSingleKey(TaskInfo taskInfo, String receiver) {

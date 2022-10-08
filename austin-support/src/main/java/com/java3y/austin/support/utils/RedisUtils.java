@@ -30,7 +30,7 @@ public class RedisUtils {
     /**
      * mGet将结果封装为Map
      *
-     * @param keys
+     * @param keys keys
      */
     public Map<String, String> mGet(List<String> keys) {
         HashMap<String, String> result = new HashMap<>(keys.size());
@@ -138,6 +138,7 @@ public class RedisUtils {
      * @param seconds 过期时间
      * @param delta   自增的步长
      */
+    @SuppressWarnings("unused")
     public void pipelineHashIncrByEx(Map<String, String> keyValues, Long seconds, Long delta) {
         try {
             redisTemplate.executePipelined((RedisCallback<String>) connection -> {
@@ -155,10 +156,10 @@ public class RedisUtils {
     /**
      * 执行指定的lua脚本返回执行结果
      * <p>--KEYS[1]: 限流 key
-     * <p>--ARGV[1]: 限流窗口
+     * <p>--ARGV[1]: 限流窗口-毫秒
      * <p>--ARGV[2]: 当前时间戳（作为score）
-     * <p>--ARGV[3]: 阈值
-     * <p>--ARGV[4]: score 对应的唯一value
+     * <p>--ARGV[3]: 阈值-即每个ARGV[1]单位时间内,能够接受的数量
+     * <p>--ARGV[4]: score 对应的唯一value,没有特殊含义
      *
      * @param redisScript 封装好的lua脚本
      * @param keys 限流key
@@ -168,8 +169,9 @@ public class RedisUtils {
     public Boolean execLimitLua(RedisScript<Long> redisScript, List<String> keys, String... args) {
 
         try {
-            Long execute = redisTemplate.execute(redisScript, keys, args);
+            Long execute = redisTemplate.execute(redisScript, keys, (Object[]) args);
 
+            assert execute != null;
             return AustinConstant.TRUE.equals(execute.intValue());
         } catch (Exception e) {
 

@@ -6,9 +6,11 @@ import lombok.Data;
 import java.util.Set;
 
 /**
- * @author 3y
- * @date 2021/11/4
  * 发送短信参数
+ * @description:
+ * @author zhaolifeng
+ * @date 2022/10/8 13:58
+ * @version 1.0
  */
 @Data
 @Builder

@@ -9,7 +9,10 @@ import java.util.List;
 
 /**
  * 云片网短信调用发送接口返回值
- * @author 3y
+ * @description:
+ * @author zhaolifeng
+ * @date 2022/10/8 13:58
+ * @version 1.0
  */
 @NoArgsConstructor
 @Data

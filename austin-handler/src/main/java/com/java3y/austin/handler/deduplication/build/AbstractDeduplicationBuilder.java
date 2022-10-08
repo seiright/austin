@@ -9,8 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.annotation.PostConstruct;
 
 /**
- * @author 3y
- * @date 2022/1/19
+ * 去重参数 {@link DeduplicationParam} 构建器的抽象实现类
+ * @description:
+ * @author zhaolifeng
+ * @date 2022/10/8 22:45
+ * @version 1.0
  */
 public abstract class AbstractDeduplicationBuilder implements Builder {
 

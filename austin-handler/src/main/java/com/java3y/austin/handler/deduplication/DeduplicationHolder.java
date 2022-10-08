@@ -9,8 +9,11 @@ import java.util.Map;
 
 
 /**
- * @author huskey
- * @date 2022/1/18
+ * 去重服务的处理类注入
+ * @description:
+ * @author zhaolifeng
+ * @date 2022/10/8 15:04
+ * @version 1.0
  */
 @Service
 public class DeduplicationHolder {

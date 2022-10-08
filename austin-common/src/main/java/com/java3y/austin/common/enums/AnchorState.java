@@ -7,8 +7,10 @@ import lombok.ToString;
 
 /**
  * 打点信息枚举
- *
- * @author 3y
+ * @description:
+ * @author zhaolifeng
+ * @date 2022/10/8 14:46
+ * @version 1.0
  */
 @Getter
 @ToString
@@ -25,18 +27,18 @@ public enum AnchorState {
     SEND_SUCCESS(60, "消息下发成功"),
     SEND_FAIL(70, "消息下发失败"),
 
-    CLICK(0100, "消息被点击"),
+    CLICK(64, "消息被点击"),
     ;
 
 
-    private Integer code;
-    private String description;
+    private final Integer code;
+    private final String description;
 
     /**
      * 通过code获取描述
      *
-     * @param code
-     * @return
+     * @param code code
+     * @return code 对应描述
      */
     public static String getDescriptionByCode(Integer code) {
         for (AnchorState anchorState : AnchorState.values()) {

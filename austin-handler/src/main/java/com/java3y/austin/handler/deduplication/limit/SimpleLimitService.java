@@ -14,8 +14,10 @@ import java.util.stream.Collectors;
 
 /**
  * 采用普通的计数去重方法，限制的是每天发送的条数。
- * @author cao
- * @date 2022-04-20 13:41
+ * @description:
+ * @author zhaolifeng
+ * @date 2022/10/8 22:54
+ * @version 1.0
  */
 @Service(value = "SimpleLimitService")
 public class SimpleLimitService extends AbstractLimitService {
@@ -25,12 +27,23 @@ public class SimpleLimitService extends AbstractLimitService {
     @Autowired
     private RedisUtils redisUtils;
 
+
+    /**
+     * 获取去重用户列表<br>
+     * 对于符合去重条件的用户, 加入return列表中; 不符合条件的用户, 无记录则添加, 有纪录则更新ttl和频次
+     * @param service 当前去重服务
+     * @param taskInfo 任务信息
+     * @param param 去重信息
+     * @return 去重用户列表
+     * @author zhaolifeng
+     * @date 2022/10/8 22:52
+     */
     @Override
     public Set<String> limitFilter(AbstractDeduplicationService service, TaskInfo taskInfo, DeduplicationParam param) {
         Set<String> filterReceiver = new HashSet<>(taskInfo.getReceiver().size());
-        // 获取redis记录
+
         Map<String, String> readyPutRedisReceiver = new HashMap<>(taskInfo.getReceiver().size());
-        //redis数据隔离
+
         List<String> keys = deduplicationAllKey(service, taskInfo).stream().map(key -> LIMIT_TAG + key).collect(Collectors.toList());
         Map<String, String> inRedisValue = redisUtils.mGet(keys);
 
@@ -46,7 +59,7 @@ public class SimpleLimitService extends AbstractLimitService {
             }
         }
 
-        // 不符合条件的用户：需要更新Redis(无记录添加，有记录则累加次数)
+
         putInRedis(readyPutRedisReceiver, inRedisValue, param.getDeduplicationTime());
 
         return filterReceiver;
@@ -56,7 +69,7 @@ public class SimpleLimitService extends AbstractLimitService {
     /**
      * 存入redis 实现去重
      *
-     * @param readyPutRedisReceiver
+     * @param readyPutRedisReceiver 准备存入或更新redis的用户列表, 用于将来去重服务
      */
     private void putInRedis(Map<String, String> readyPutRedisReceiver,
         Map<String, String> inRedisValue, Long deduplicationTime) {
@@ -64,7 +77,7 @@ public class SimpleLimitService extends AbstractLimitService {
         for (Map.Entry<String, String> entry : readyPutRedisReceiver.entrySet()) {
             String key = entry.getValue();
             if (inRedisValue.get(key) != null) {
-                keyValues.put(key, String.valueOf(Integer.valueOf(inRedisValue.get(key)) + 1));
+                keyValues.put(key, String.valueOf(Integer.parseInt(inRedisValue.get(key)) + 1));
             } else {
                 keyValues.put(key, String.valueOf(AustinConstant.TRUE));
             }
