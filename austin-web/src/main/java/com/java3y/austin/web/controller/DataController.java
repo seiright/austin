@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/trace")
 @Api("获取数据接口（全链路追踪)")
+@SuppressWarnings("rawtypes")
 @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true", allowedHeaders = "*")
 public class DataController {
     @Autowired
@@ -42,6 +43,9 @@ public class DataController {
         EchartsVo echartsVo = EchartsVo.builder().build();
         if (StrUtil.isNotBlank(dataParam.getBusinessId())) {
             echartsVo = dataService.getTraceMessageTemplateInfo(dataParam.getBusinessId());
+        }
+        if (echartsVo==null){
+            return new BasicResultVO<>(RespStatusEnum.TEMPLATE_NOT_FOUND);
         }
         return new BasicResultVO<>(RespStatusEnum.SUCCESS, echartsVo);
     }

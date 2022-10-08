@@ -8,6 +8,7 @@ import cn.hutool.core.text.StrPool;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
 import com.java3y.austin.common.constant.AustinConstant;
+import com.java3y.austin.common.constant.CommonConstant;
 import com.java3y.austin.common.domain.SimpleAnchorInfo;
 import com.java3y.austin.common.enums.AnchorState;
 import com.java3y.austin.common.enums.ChannelType;
@@ -111,6 +112,9 @@ public class DataServiceImpl implements DataService {
 
         // 1. 获取businessId并获取模板信息
         businessId = getRealBusinessId(businessId);
+        if (businessId.equals(CommonConstant.EMPTY_STRING)){
+            return null;
+        }
         Optional<MessageTemplate> optional = messageTemplateDao.findById(TaskInfoUtils.getMessageTemplateIdFromBusinessId(Long.valueOf(businessId)));
         if (!optional.isPresent()) {
             return null;
@@ -198,11 +202,12 @@ public class DataServiceImpl implements DataService {
         if (AustinConstant.BUSINESS_ID_LENGTH == businessId.length()) {
             return businessId;
         }
+        if (!StrUtil.isNumeric(businessId)) return "";
         Optional<MessageTemplate> optional = messageTemplateDao.findById(Long.valueOf(businessId));
         if (optional.isPresent()) {
             MessageTemplate messageTemplate = optional.get();
             return String.valueOf(TaskInfoUtils.generateBusinessId(messageTemplate.getId(), messageTemplate.getTemplateType()));
         }
-        return businessId;
+        return "";
     }
 }
