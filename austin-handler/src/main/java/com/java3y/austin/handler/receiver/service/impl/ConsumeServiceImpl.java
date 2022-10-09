@@ -21,7 +21,11 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * @author 3y
+ * 消费者服务实现类
+ * @description:
+ * @author zhaolifeng
+ * @date 2022/10/9 22:43
+ * @version 1.0
  */
 @Service
 public class ConsumeServiceImpl implements ConsumeService {

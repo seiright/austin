@@ -20,7 +20,7 @@ public interface Handler {
     void doHandler(TaskInfo taskInfo);
 
     /**
-     * 撤回消息
+     * 撤回消息 TODO 待实现撤回功能
      *
      * @param messageTemplate 消息模板
      */

@@ -14,15 +14,16 @@ import com.java3y.austin.handler.flowcontrol.annotations.LocalRateLimit;
 @LocalRateLimit(rateLimitStrategy = RateLimitStrategy.SEND_USER_NUM_RATE_LIMIT)
 public class SendUserNumRateLimitService implements FlowControlService {
 
-  /**
-   * 根据渠道进行流量控制
-   *
-   * @param taskInfo
-   * @param flowControlParam
-   */
-  @Override
-  public Double flowControl(TaskInfo taskInfo, FlowControlParam flowControlParam) {
-    RateLimiter rateLimiter = flowControlParam.getRateLimiter();
-    return rateLimiter.acquire(taskInfo.getReceiver().size());
-  }
+    /**
+     * 根据渠道进行流量控制 <br>
+     * FIXME 跟{@link RequestRateLimitService}的设计大同小异, 有没有更好的方案?目前的阻塞貌似没有意义
+     * @param taskInfo         任务信息
+     * @param flowControlParam 流量控制参数
+     */
+    @Override
+    @SuppressWarnings("UnstableApiUsage")
+    public Double flowControl(TaskInfo taskInfo, FlowControlParam flowControlParam) {
+        RateLimiter rateLimiter = flowControlParam.getRateLimiter();
+        return rateLimiter.acquire(taskInfo.getReceiver().size());
+    }
 }

@@ -7,8 +7,10 @@ import com.java3y.austin.web.vo.amis.UserTimeLineVo;
 
 /**
  * 数据链路追踪获取接口
- *
- * @author 3y
+ * @description:
+ * @author zhaolifeng
+ * @date 2022/10/9 17:00
+ * @version 1.0
  */
 public interface DataService {
 
@@ -16,7 +18,7 @@ public interface DataService {
      * 获取全链路追踪 用户维度信息
      *
      * @param receiver 接收者
-     * @return
+     * @return 用户下发信息
      */
     UserTimeLineVo getTraceUserInfo(String receiver);
 
@@ -25,7 +27,7 @@ public interface DataService {
      * 获取全链路追踪 消息模板维度信息
      *
      * @param businessId 业务ID（如果传入消息模板ID，则生成当天的业务ID）
-     * @return
+     * @return 消息模板维度的图表信息
      */
     EchartsVo getTraceMessageTemplateInfo(String businessId);
 
@@ -33,8 +35,8 @@ public interface DataService {
     /**
      * 获取短信下发记录
      *
-     * @param dataParam
-     * @return
+     * @param dataParam 数据参数
+     * @return 短信下发信息
      */
     SmsTimeLineVo getTraceSmsInfo(DataParam dataParam);
 

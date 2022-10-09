@@ -8,10 +8,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * @author 3y
- * @date 2022/4/18
- * <p>
  * 流量控制所需要的参数
+ * @description:
+ * @author zhaolifeng
+ * @date 2022/10/9 23:04
+ * @version 1.0
  */
 @Builder
 @Data
@@ -23,6 +24,7 @@ public class FlowControlParam {
      * 限流器
      * 子类初始化的时候指定
      */
+    @SuppressWarnings("UnstableApiUsage")
     protected RateLimiter rateLimiter;
 
     /**

@@ -8,8 +8,10 @@ import lombok.ToString;
 
 /**
  * 发送渠道类型枚举
- *
- * @author 3y
+ * @description:
+ * @author zhaolifeng
+ * @date 2022/10/9 22:03
+ * @version 1.0
  */
 @Getter
 @ToString
@@ -34,28 +36,30 @@ public enum ChannelType {
     /**
      * 编码值
      */
-    private Integer code;
+    private final Integer code;
 
     /**
      * 描述
      */
-    private String description;
+    private final String description;
 
     /**
      * 内容模型Class
      */
-    private Class contentModelClass;
+    @SuppressWarnings("rawtypes")
+    private final Class contentModelClass;
 
     /**
      * 英文标识
      */
-    private String codeEn;
+    private final String codeEn;
 
     /**
      * 通过code获取class
-     * @param code
-     * @return
+     * @param code code
+     * @return class
      */
+    @SuppressWarnings("rawtypes")
     public static Class getChanelModelClassByCode(Integer code) {
         ChannelType[] values = values();
         for (ChannelType value : values) {

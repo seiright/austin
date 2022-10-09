@@ -49,11 +49,10 @@ public abstract class BaseHandler implements Handler {
 
     /**
      * 流量控制
-     *
+     * <p>只有子类指定了限流参数，才需要限流</p>
      * @param taskInfo 任务信息
      */
     public void flowControl(TaskInfo taskInfo) {
-        // 只有子类指定了限流参数，才需要限流
         if (flowControlParam != null) {
             flowControlFactory.flowControl(taskInfo, flowControlParam);
         }

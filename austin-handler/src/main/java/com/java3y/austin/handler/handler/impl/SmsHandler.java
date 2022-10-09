@@ -5,12 +5,16 @@ import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.google.common.base.Throwables;
+import com.google.common.util.concurrent.RateLimiter;
 import com.java3y.austin.common.constant.AustinConstant;
 import com.java3y.austin.common.domain.TaskInfo;
 import com.java3y.austin.common.dto.model.SmsContentModel;
 import com.java3y.austin.common.enums.ChannelType;
 import com.java3y.austin.handler.domain.sms.MessageTypeSmsConfig;
 import com.java3y.austin.handler.domain.sms.SmsParam;
+import com.java3y.austin.handler.enums.RateLimitStrategy;
+import com.java3y.austin.handler.flowcontrol.FlowControlParam;
+import com.java3y.austin.handler.flowcontrol.impl.SendUserNumRateLimitService;
 import com.java3y.austin.handler.handler.BaseHandler;
 import com.java3y.austin.handler.handler.Handler;
 import com.java3y.austin.handler.script.SmsScriptHolder;
@@ -38,8 +42,18 @@ import java.util.Random;
 @Slf4j
 public class SmsHandler extends BaseHandler implements Handler {
 
+    /**
+     * 短信处理器设置了发送用户数量限流{@link SendUserNumRateLimitService}, 默认50 (具体数值配置在apollo动态调整)
+     * @author zhaolifeng
+     * @date 2022/10/9 23:10
+     */
+    @SuppressWarnings("UnstableApiUsage")
     public SmsHandler() {
         channelCode = ChannelType.SMS.getCode();
+        double rateInitValue = 50;
+        flowControlParam = FlowControlParam.builder().rateInitValue(rateInitValue)
+                .rateLimitStrategy(RateLimitStrategy.SEND_USER_NUM_RATE_LIMIT)
+                .rateLimiter(RateLimiter.create(rateInitValue)).build();
     }
 
     @Autowired

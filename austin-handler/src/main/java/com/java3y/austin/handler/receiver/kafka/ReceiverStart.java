@@ -83,7 +83,7 @@ public class ReceiverStart {
     /**
      * 针对tag消息过滤
      * producer 将tag写进header里
-     * @return
+     * @return 为KafkaListener注释方法构建的容器
      */
     @Bean
     @SuppressWarnings({"rawtypes","unchecked"})

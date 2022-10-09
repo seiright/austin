@@ -17,9 +17,10 @@ public class RequestRateLimitService implements FlowControlService {
   /**
    * 根据渠道进行流量控制
    *
-   * @param taskInfo
-   * @param flowControlParam
+   * @param taskInfo 任务信息
+   * @param flowControlParam 流量控制参数
    */
+  @SuppressWarnings("UnstableApiUsage")
   @Override
   public Double flowControl(TaskInfo taskInfo, FlowControlParam flowControlParam) {
     RateLimiter rateLimiter = flowControlParam.getRateLimiter();
